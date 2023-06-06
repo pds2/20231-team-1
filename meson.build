@@ -1,3 +1,8 @@
 project('indexer', 'cpp')
-armdep = dependency('armadillo', required: true)
-executable('idx', 'src/main.cpp')
+armadep = dependency('armadillo')
+armaargs = '-larmadillo -llapack -lblas'
+executable(
+    'idx',
+    'src/main.cpp',
+    dependencies: [armadep],
+    cpp_args: armaargs)
