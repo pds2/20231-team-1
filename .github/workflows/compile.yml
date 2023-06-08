@@ -1,0 +1,15 @@
+name: Build Project
+on: [push]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install build dependencies
+        run: sudo apt install -y pkg-config cmake libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev libarmadillo10 libarmadillo-dev
+      - uses: actions/setup-python@v1
+      - uses: BSFishy/meson-build@v1.0.3
+        with:
+          action: build
