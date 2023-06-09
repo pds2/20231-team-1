@@ -2,12 +2,17 @@
 #define WEIGHTING_HPP
 
 #include <string>
+#include <vector>
 
 #include "document.hpp"
 
 class Weighting {
+protected:
+  DocumentIndex & index;
 public:
-  virtual double get_weight(Document & doc, std::string term) = 0;
+  Weighting(DocumentIndex & index) : index(index) {}
+  virtual double get_weight(int doc_idx, std::string term) = 0;
+  virtual std::vector<double> get_query_weights(std::string query) = 0;
 };
 
 #endif
