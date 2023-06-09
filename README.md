@@ -9,3 +9,27 @@
 5. Como um usuário, gostaria de categorizar ou atribuir atributos aos arquivos para separá-los.
 6. Como um usuário, gostaria de selecionar o diretório a ser indexado.
 7. Como um usuário, gostaria de filtrar minha busca a um subdiretório.
+
+## Desenvolvimento
+
+### Dependências
+
+Para instalar todos as dependências em um ambiente ubuntu LTS, basta rodar o comando:
+
+``` shell
+sudo apt install -y meson pkg-config cmake libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev libarmadillo10 libarmadillo-dev
+```
+
+### Compilação
+
+Após clonar o projeto, rode o seguinte comando na root:
+
+``` shell
+meson setup build
+```
+
+Após a confirmação de que todas as dependências estão instaladas no sistema, basta rodar o comando abaixo para compilar (e recompilar):
+
+``` shell
+meson compile -C build
+```
