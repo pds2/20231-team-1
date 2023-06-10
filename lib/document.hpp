@@ -6,7 +6,7 @@
 
 class Document {
 public:
-    std::map<std::string, int> terms; // Temp representation of a document
+    std::unordered_map<std::string, int> terms; // Temp representation of a document
 };
 
 using DocumentIndex = std::vector<Document>;

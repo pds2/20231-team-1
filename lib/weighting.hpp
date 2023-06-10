@@ -13,7 +13,7 @@ protected:
 public:
 
   Weighting(DocumentIndex& index): index(index){};
-  virtual std::vector<double> get_weight(int doc_idx, std::string term) = 0;
+  virtual std::vector<double> get_weight(std::string term) = 0;
   virtual std::vector<int> get_query_weights(std::string query) = 0;
 
 };
