@@ -6,8 +6,14 @@
 #include "document.hpp"
 
 class Weighting {
+
+protected:
+  DocumentIndex& index;
+
 public:
+  Weighting(DocumentIndex& index);
   virtual double get_weight(Document & doc, std::string term) = 0;
+
 };
 
 #endif
