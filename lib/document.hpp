@@ -2,8 +2,12 @@
 #define DOCUMENT_HPP
 
 #include <vector>
+#include <map>
 
-class Document {};
+class Document {
+public:
+    std::map<std::string, int> terms; // Temp representation of a document
+};
 
 using DocumentIndex = std::vector<Document>;
 
