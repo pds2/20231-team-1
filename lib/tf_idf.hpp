@@ -1,6 +1,7 @@
 #ifndef TF_IDF_HPP
 #define TF_IDF_HPP
 
+#include <set>
 #include <unordered_map>
 #include <vector>
 #include "weighting.hpp"
@@ -10,6 +11,8 @@ private:
 
     // All tf-idf weights for each term of each document. 
     std::vector<std::unordered_map<std::string, double>> weights;
+
+    std::set<std::string> recipe_vector;
 
 public:
 

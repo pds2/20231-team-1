@@ -1,11 +1,12 @@
 #include <cmath>
+#include <sstream>
 
 #include "../lib/tf_idf.hpp"
 
 TfIdf::TfIdf(DocumentIndex& index) : Weighting(index){
 
     // Each document I assume is a map of term to its quantity (Inverted list).
-    // And the document index is a list of these documents
+    // And the document index is a vector of these documents
 
 // df - Document Frequence
     std::unordered_map<std::string, double> idf_vals;
@@ -28,6 +29,11 @@ TfIdf::TfIdf(DocumentIndex& index) : Weighting(index){
             weights[i][term.first] = term.second * idf_vals[term.first];
         }
     }
+
+// Mounting the recipe of vector
+
+    for(auto term : idf_vals) recipe_vector.insert(term.first);
+
 }
 
 std::vector<double> TfIdf::get_weight(std::string term){
@@ -40,7 +46,27 @@ std::vector<double> TfIdf::get_weight(std::string term){
 
 std::vector<int> TfIdf::get_query_weights(std::string query){
 
+    // Splitting the query and add its words to a map
+    std::istringstream iss(query);
+    std::map<std::string, int> count_words;
 
+    while(iss){
+        std::string substr;
+        iss >> substr;
+        count_words[substr] += 1;
+    }
 
+    // Following the recipe vector for mount the result vector 
+    std::vector<int> res;
+    auto it = recipe_vector.begin();
+    while(it != recipe_vector.end()){
+
+        if(count_words.count(*it) == 0) res.push_back(0);
+        else res.push_back(count_words[*it]);
+
+        ++ it;
+    }
+
+    return res;
 }
 
