@@ -1,12 +1,11 @@
 #include <iostream>
-#include <armadillo>
+#include <Eigen/Core>
 
 int main() {
   std::cout << "Olá" << std::endl;
-  std::cout << "Armadillo version: " << arma::arma_version::as_string() << std::endl;
-  arma::mat A(4, 5, arma::fill::randu);
-  arma::mat B(4, 5, arma::fill::randu);
+  Eigen::Matrix<double, 4, 5> A = Eigen::MatrixXd::Random(4, 5);
+  Eigen::Matrix<double, 4, 5> B = Eigen::MatrixXd::Random(4, 5);
 
-  std::cout << A*B.t() << std::endl;
+  std::cout << A*B.transpose() << std::endl;
   return 0;
 }

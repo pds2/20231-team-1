@@ -1,16 +1,17 @@
 #ifndef LSARANKING_HPP
 #define LSARANKING_HPP
 
-#include <armadillo>
+#include <Eigen/Core>
 
 #include "ranking.hpp"
 
 class LsaRanking : public Ranking {
 private:
-  void get_rr_term_document_mat(Weighting & weighter, arma::mat & T, arma::vec & s, arma::mat & D) const;
-  arma::vec get_query_vec(Weighting & weighter, std::string query) const;
+  void get_rr_term_document_mat(Weighting & weighter, Eigen::MatrixXd & T, Eigen::VectorXd & s, Eigen::MatrixXd & D) const;
+  Eigen::VectorXd get_query_vec(Weighting & weighter, std::string query) const;
 public:
-  std::vector<int> * rank(Weighting & weighter, std::string query) const override;
+  LsaRanking(DocumentIndex & index) : Ranking(index) {}
+  std::vector<int> rank(Weighting & weighter, std::string query) const override;
 };
 
 #endif

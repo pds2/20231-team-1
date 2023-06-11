@@ -1,7 +1,9 @@
 #include "../lib/vector_space.hpp"
 
-arma::vec VectorSpaceRanking::get_query_vec(Weighting & weighter, std::string query) const{
-  arma::vec query_vec = arma::vec(index.size());
+#include <iostream>
+
+Eigen::VectorXd VectorSpaceRanking::get_query_vec(Weighting & weighter, std::string query) const{
+  Eigen::VectorXd query_vec = Eigen::VectorXd(index.size());
 
   std::vector<double> query_weights = weighter.get_query_weights(query);
 
@@ -12,19 +14,19 @@ arma::vec VectorSpaceRanking::get_query_vec(Weighting & weighter, std::string qu
   return query_vec;
 }
 
-std::vector<int> * VectorSpaceRanking::rank(Weighting & weighter, std::string query) const {
-  const arma::vec query_vec = get_query_vec(weighter, query);
-  
-  const int N_DOCS = 100; // FIXME
-  const int N_TERMS = index.size();
+std::vector<int> VectorSpaceRanking::rank(Weighting & weighter, std::string query) const {
+  const Eigen::VectorXd query_vec = get_query_vec(weighter, query);
 
-  std::vector<arma::vec> vectors(N_DOCS, arma::vec(N_TERMS));
+  const int N_TERMS = index.size();
+  const int N_DOCS = 2; // FIXME
+
+  std::vector<Eigen::VectorXd> vectors(N_DOCS, Eigen::VectorXd(N_TERMS));
 
   // Preenche os vetores dos documentos com seus pesos de cada termo
   int term_idx = 0;
   for (auto [term, docs] : index) {
     for (int i = 0; i < docs.size(); i++) {
-      vectors[i][term_idx] = weighter.get_weight(docs[i], term);
+      vectors[docs[i]][term_idx] = weighter.get_weight(docs[i], term);
     }
     term_idx++;
   }
@@ -34,7 +36,7 @@ std::vector<int> * VectorSpaceRanking::rank(Weighting & weighter, std::string qu
   int doc_idx = 0;
   for (auto &v : vectors) {
     // cos(a, b) = (a . b) / (||a|| * ||b||)
-    const double cos = dot(query_vec, v) / (norm(query_vec) * norm(v));
+    const double cos = query_vec.dot(v) / (query_vec.norm() * v.norm());
     ranking.push_back({cos, doc_idx});
     doc_idx++;
   }
@@ -43,9 +45,9 @@ std::vector<int> * VectorSpaceRanking::rank(Weighting & weighter, std::string qu
   sort(ranking.begin(), ranking.end(), std::greater<std::pair<double, int>>());
 
   // Extraímos a lista de índices de documentos ordenados pela relevância
-  std::vector<int> * res = new std::vector<int>();
+  std::vector<int> res;
   for (auto &[_, v] : ranking) {
-    res->push_back(v);
+    res.push_back(v);
   }
 
   return res;
