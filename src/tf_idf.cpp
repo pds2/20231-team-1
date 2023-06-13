@@ -36,12 +36,8 @@ TfIdf::TfIdf(DocumentIndex& index) : Weighting(index){
 
 }
 
-std::vector<double> TfIdf::get_weight(std::string term){
-
-    std::vector<double> weights_per_doc;
-    for(auto doc : weights) weights_per_doc.push_back(doc[term]);
-    return weights_per_doc;
-    
+double TfIdf::get_weight(int doc_idx, std::string term){
+    return weights[doc_idx][term];
 }
 
 std::vector<int> TfIdf::get_query_weights(std::string query){

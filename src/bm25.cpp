@@ -1,5 +1,3 @@
-#include <cmath>
-
 #include "../lib/bm25.hpp"
 
 Bm25::Bm25(DocumentIndex& index) : Weighting(index){
@@ -33,17 +31,34 @@ Bm25::Bm25(DocumentIndex& index) : Weighting(index){
     }
 }
 
-std::vector<double> Bm25::get_weight(std::string term){
-
-    std::vector<double> weights_per_doc;
-    for(auto doc : weights) weights_per_doc.push_back(doc[term]);
-    return weights_per_doc;
-    
+double Bm25::get_weight(int doc_idx, std::string term){
+    return weights[doc_idx][term];
 }
 
 std::vector<int> Bm25::get_query_weights(std::string query){
 
+    // Splitting the query and add its words to a map
+    std::istringstream iss(query);
+    std::map<std::string, int> count_words;
 
+    while(iss){
+        std::string substr;
+        iss >> substr;
+        count_words[substr] += 1;
+    }
+
+    // Following the recipe vector for mount the result vector 
+    std::vector<int> res;
+    auto it = recipe_vector.begin();
+    while(it != recipe_vector.end()){
+
+        if(count_words.count(*it) == 0) res.push_back(0);
+        else res.push_back(count_words[*it]);
+
+        ++ it;
+    }
+
+    return res;
 
 }
 
