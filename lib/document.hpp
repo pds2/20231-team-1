@@ -1,14 +1,15 @@
 #ifndef DOCUMENT_HPP
 #define DOCUMENT_HPP
 
-#include <vector>
 #include <map>
+#include <vector>
+#include <string>
 
 class Document {
 public:
     std::unordered_map<std::string, int> terms; // Temp representation of a document
 };
 
-using DocumentIndex = std::vector<Document>;
+using DocumentIndex = std::map<std::string, std::vector<int>>;
 
 #endif

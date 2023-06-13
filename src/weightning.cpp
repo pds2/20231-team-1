@@ -1,4 +1,1 @@
-#include <armadillo>
-
-class Weighting {
-};
+#include "../lib/weighting.hpp"

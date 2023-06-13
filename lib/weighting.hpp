@@ -6,6 +6,7 @@
 #include <string>
 #include <unordered_map>
 #include <set>
+#include <vector>
 
 #include "document.hpp"
 
@@ -19,11 +20,9 @@ protected:
   std::set<std::string> recipe_vector;
   
 public:
-
-  Weighting(DocumentIndex& index): index(index){};
+  Weighting(DocumentIndex & index) : index(index) {}
   virtual double get_weight(int doc_idx, std::string term) = 0;
-  virtual std::vector<int> get_query_weights(std::string query) = 0;
-
+  virtual std::vector<double> get_query_weights(std::string query) = 0;
 };
 
 #endif
