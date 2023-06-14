@@ -8,7 +8,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Install build dependencies
-        run: sudo apt install -y pkg-config cmake libeigen3-dev
+        run: sudo apt install -y pkg-config cmake libeigen3-dev doctest-dev
       - uses: actions/setup-python@v1
       - uses: BSFishy/meson-build@v1.0.3
         with:

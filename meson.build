@@ -1,6 +1,5 @@
 project('indexer', 'cpp')
 
-armadeps = [dependency('armadillo'), dependency('lapack'), dependency('blas')]
 eigendep = dependency('eigen3')
 
 incdir = include_directories('lib')
@@ -8,7 +7,7 @@ incdir = include_directories('lib')
 executable(
     'idx',
     'src/main.cpp',
-    dependencies: [armadeps, eigendep])
+    dependencies: [eigendep])
 
 vs_test = executable(
     'test_vs',

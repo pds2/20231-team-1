@@ -1,6 +1,7 @@
 #ifndef DOCUMENT_HPP
 #define DOCUMENT_HPP
 
+#include <unordered_map>
 #include <map>
 #include <vector>
 #include <string>
