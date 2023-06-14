@@ -8,11 +8,14 @@
 
 class Bm25 : public Weighting {
 
+private:
+    std::unordered_map<std::string, double> idf_vals;
+
 public:
 
-    Bm25(DocumentIndex& index): Weighting(index){}
+    Bm25(DocumentIndex& index);
     double get_weight(int doc_idx, std::string term) override;
-    std::vector<int> get_query_weights(std::string query) override;
+    std::vector<double> get_query_weights(std::string query) override;
 
 };
 

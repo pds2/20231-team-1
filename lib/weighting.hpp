@@ -14,10 +14,7 @@ class Weighting {
 
 protected:
   DocumentIndex& index;
-
-  // All tf-idf weights for each term of each document.
-  std::vector<std::unordered_map<std::string, double>> weights;
-  std::set<std::string> recipe_vector;
+  std::vector<std::string> recipe_vector;
   
 public:
   Weighting(DocumentIndex & index) : index(index) {}

@@ -8,6 +8,9 @@
 
 class TfIdf : public Weighting {
 
+private:
+    std::unordered_map<std::string, double> idf_vals;
+
 public:
 
     // The constructor will mount the weight matrix
@@ -17,7 +20,7 @@ public:
     double TfIdf::get_weight(int doc_idx, std::string term) override;
 
     // Get weight for the query search
-    std::vector<int> TfIdf::get_query_weights(std::string query) override;
+    std::vector<double> TfIdf::get_query_weights(std::string query) override;
 };
 
 #endif
