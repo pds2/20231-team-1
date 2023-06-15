@@ -10,6 +10,11 @@ jobs:
       - name: Install build dependencies
         run: sudo apt install -y pkg-config cmake libeigen3-dev doctest-dev
       - uses: actions/setup-python@v1
-      - uses: BSFishy/meson-build@v1.0.3
+      - name: Build program
+        uses: BSFishy/meson-build@v1.0.3
         with:
           action: build
+      - name: Run unit tests
+        uses: BSFishy/meson-build@v1.0.3
+        with:
+          action: test
