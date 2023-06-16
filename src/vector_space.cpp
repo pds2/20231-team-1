@@ -18,7 +18,7 @@ std::vector<int> VectorSpaceRanking::rank(Weighting & weighter, std::string quer
   const Eigen::VectorXd query_vec = get_query_vec(weighter, query);
 
   const int N_TERMS = index.size();
-  const int N_DOCS = 2; // FIXME
+  const int N_DOCS = data.get_qt_docs();
 
   std::vector<Eigen::VectorXd> vectors(N_DOCS, Eigen::VectorXd(N_TERMS));
 

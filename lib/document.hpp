@@ -2,6 +2,7 @@
 #define DOCUMENT_HPP
 
 #include <map>
+#include <string>
 #include <vector>
 
 class DocumentsData{

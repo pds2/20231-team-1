@@ -18,7 +18,7 @@ Eigen::VectorXd LsaRanking::get_query_vec(Weighting & weighter, std::string quer
 
 void LsaRanking::get_rr_term_document_mat(Weighting & weighter, Eigen::MatrixXd & T, Eigen::VectorXd & s, Eigen::MatrixXd & D) const {
   const int N_TERMS = index.size();
-  const int N_DOCS = 2; // FIXME
+  const int N_DOCS = data.get_qt_docs();
 
   Eigen::SparseMatrix<double> term_doc(N_TERMS, N_DOCS);
 
@@ -33,9 +33,7 @@ void LsaRanking::get_rr_term_document_mat(Weighting & weighter, Eigen::MatrixXd 
     term_idx++;
   }
 
-  // const unsigned int k = std::min({N_TERMS, N_DOCS, 100}); // define a precisão da aproximaçaõ
-
-  const unsigned int k = 2; // define a precisão da aproximaçaõ
+  const unsigned int k = std::min({N_TERMS, N_DOCS, 100}); // define a precisão da aproximação
 
   // Calcula a fatoração svd da matrix termo-documento
   Eigen::BDCSVD<Eigen::MatrixXd> svd(term_doc, Eigen::ComputeThinU | Eigen::ComputeThinV);
@@ -51,7 +49,7 @@ void LsaRanking::get_rr_term_document_mat(Weighting & weighter, Eigen::MatrixXd 
 }
 
 std::vector<int> LsaRanking::rank(Weighting & weighter, std::string query) const {
-  const int N_DOCS = 2; // FIXME
+  const int N_DOCS = data.get_qt_docs();
 
   // Computa a matriz termo-documento reduzida 
   Eigen::MatrixXd T, D;

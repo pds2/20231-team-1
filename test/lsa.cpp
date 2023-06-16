@@ -1,3 +1,4 @@
+#include "document.hpp"
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
@@ -24,10 +25,15 @@ public:
   }
 };
 
+int DocumentsData::get_qt_docs() {
+  return 2;
+}
+
 TEST_CASE("testing the lsa ranking") {
   DocumentIndex index = {{"casa", {0, 1}}, {"teto", {0}}, {"agora", {1}}};
   BinaryWeighting w(index);
-  LsaRanking l(index);
+  DocumentsData data;
+  LsaRanking l(data, index);
 
   std::vector<int> r = l.rank(w, "casa nova agora");
 

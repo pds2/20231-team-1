@@ -10,7 +10,7 @@ class VectorSpaceRanking : public Ranking {
 private:
   Eigen::VectorXd get_query_vec(Weighting & weighter, std::string query) const;
 public:
-  VectorSpaceRanking(DocumentIndex & index) : Ranking(index) {}
+  VectorSpaceRanking(DocumentsData & data, DocumentIndex & index) : Ranking(data, index) {}
   std::vector<int> rank(Weighting & weighter, std::string query) const override;
 };
 
