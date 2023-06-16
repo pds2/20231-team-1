@@ -3,7 +3,7 @@
 
 #include "../lib/tf_idf.hpp"
 
-TfIdf::TfIdf(DocumentIndex& index) : Weighting(index){
+TfIdf::TfIdf(DocumentIndex& index, DocumentsData &data) : Weighting(index), data(data){
 
 // df - Document Frequence
     for(auto term: index)
@@ -11,9 +11,10 @@ TfIdf::TfIdf(DocumentIndex& index) : Weighting(index){
 
 // Turn df vals to idf - Inverse document frequence
 
-    for(auto& term : idf_vals)
-        term.second = log10(index.size()/term.second);
-
+	// Change index.size() -> 
+    for(auto& term : idf_vals)  
+        term.second = log10(data.get_qt_docs()/term.second);
+	
 // Recipe vector
 
     for(auto term: idf_vals) this->recipe_vector.push_back(term.first);
@@ -22,8 +23,8 @@ TfIdf::TfIdf(DocumentIndex& index) : Weighting(index){
 double TfIdf::get_weight(int doc_idx, std::string term){
     // Maybe a exception of doc_idx no exists
     
-    double tf = (double) Documents::get_frequence(term, doc_idx);
-    tf = 1 + log10(tf);
+    double tf = (double) data.get_frequence(term, doc_idx);
+    if(tf != 0) tf = 1 + log10(tf);
 
     return tf * idf_vals[term];
 }

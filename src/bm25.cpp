@@ -1,6 +1,6 @@
 #include "../lib/bm25.hpp"
 
-Bm25::Bm25(DocumentIndex& index) : Weighting(index){
+Bm25::Bm25(DocumentIndex& index, DocumentsData& data) : Weighting(index), data(data){
     
 // df - Document Frequence
     for(auto term: index)
@@ -9,7 +9,7 @@ Bm25::Bm25(DocumentIndex& index) : Weighting(index){
 
 // Turn df vals to idf - Inverse document frequence
 
-    int total_docs = Documents::get_qtd_docs();
+    int total_docs = data.get_qt_docs();
 
     for(auto& term : idf_vals){
         term.second = (total_docs - term.second + 0.5)/(term.second + 0.5);
@@ -24,11 +24,13 @@ Bm25::Bm25(DocumentIndex& index) : Weighting(index){
 double Bm25::get_weight(int doc_idx, std::string term){
     // Maybe a exception of doc_idx no exists
     
-    double tf = (double) Documents::get_frequence(term, doc_idx);
-    if(tf > 0) tf = 1 + log10(tf);
+    double tf = (double) data.get_frequence(term, doc_idx);
+    if(tf == 0) return 0.0; 
+    
+    tf = 1 + log10(tf);
 
-    int size_doc = Documents::get_size(doc_idx);
-    double avg_size = Documents::get_avg_size();
+    int size_doc = data.get_size(doc_idx);
+    double avg_size = data.get_avg_size();
 
     double score = (K + 1) * tf;
     score /= K * (1 - B + B * size_doc/avg_size) + tf;

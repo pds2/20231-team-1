@@ -26,3 +26,21 @@ lsa_test = executable(
     dependencies: [eigendep])
 
 test('test lsa ranking', lsa_test)
+
+tfidf_test = executable(
+    'test_tfidf',
+    'test/tfidf.cpp',
+    'src/tf_idf.cpp',
+    include_directories : incdir
+)
+
+test('test tfidf weighting', tfidf_test)
+
+bm25_test = executable(
+    'test_bm25',
+    'test/bm25.cpp',
+    'src/bm25.cpp',
+    include_directories : incdir
+)
+
+test('test bm25 weighting', bm25_test)
