@@ -5,7 +5,12 @@
 #include "weighting.hpp"
 
 class Ranking {
-  virtual std::vector<int> * rank(DocumentIndex index, Weighting weightner, std::string query) = 0;
+protected:
+  DocumentsData & data;
+  DocumentIndex & index;
+public:
+  Ranking(DocumentsData & data, DocumentIndex & index) : data(data), index(index) {}
+  virtual std::vector<int> rank(Weighting & weightner, std::string query) const = 0;
 };
 
 #endif

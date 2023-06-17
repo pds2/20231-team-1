@@ -17,7 +17,7 @@
 Para instalar todos as dependências em um ambiente ubuntu LTS, basta rodar o comando:
 
 ``` shell
-sudo apt install -y meson pkg-config cmake libopenblas-dev liblapack-dev libarpack2-dev libsuperlu-dev libarmadillo10 libarmadillo-dev
+sudo apt install -y meson pkg-config cmake libeigen3-dev doctest-dev
 ```
 
 ### Compilação
