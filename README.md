@@ -14,7 +14,14 @@
 
 ### Dependências
 
-Para instalar todos as dependências em um ambiente ubuntu LTS, basta rodar o comando:
+O projeto tem as seguintes dependências:
+- meson
+- pkg-config
+- cmake
+- eigen 3
+- doctest
+
+Para instalar todos as dependências em um ambiente Ubuntu LTS, basta rodar o comando:
 
 ``` shell
 sudo apt install -y meson pkg-config cmake libeigen3-dev doctest-dev
@@ -22,7 +29,7 @@ sudo apt install -y meson pkg-config cmake libeigen3-dev doctest-dev
 
 ### Compilação
 
-Após clonar o projeto, rode o seguinte comando na root:
+Após clonar o projeto, rode o seguinte comando na pasta raiz:
 
 ``` shell
 meson setup build
@@ -33,3 +40,10 @@ Após a confirmação de que todas as dependências estão instaladas no sistema
 ``` shell
 meson compile -C build
 ```
+
+Para rodar os testes unitários, basta rodar o comando abaixo:
+
+``` shell
+meson test -C build
+```
+
