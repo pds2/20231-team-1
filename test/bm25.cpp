@@ -57,14 +57,14 @@ TEST_CASE("Test 1 - bm25 weighting"){
 TEST_CASE("Test 2 - weights from a query"){
     std::string query = "a sample or example sample";
 
-    // recipe vector ->  this, sample, is, example, another, a   
+    // recipe vector -> alphabetic ordered 
     std::vector<double> expected_weights = {
+        log(2) * (K + 1) / (K + 1),
+        0.0,
+        log(2) * (K + 1) / (K + 1),
         0.0,
         log(2) * (K + 1) * (1 + log10(2)) /(K + (1 + log10(2))),
-        0.0,
-        log(2) * (K + 1) / (K + 1),
-        0.0,
-        log(2) * (K + 1) / (K + 1),
+        0.0
     };
     auto weights_query = weighter.get_query_weights(query); 
 

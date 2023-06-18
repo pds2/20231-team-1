@@ -45,9 +45,10 @@ TEST_CASE("Test 1 - tf-idf weighting"){
 TEST_CASE("Test 2 - weights from a query"){
     std::string query = "a sample or example sample";
 
-    // recipe vector ->  this, sample, is, example, another, a   
-    std::vector<double> expected_weights = {0.0,  (1 + log10(2)) * log10(2), 0.0, log10(2) * 1, 0.0, log10(2) * 1};
+    // recipe vector ->  alphabetic order in map container
+    std::vector<double> expected_weights = { log10(2) * 1, 0.0, log10(2) * 1, 0.0, (1 + log10(2)) * log10(2), 0.0};
     auto weights_query = weighter.get_query_weights(query); 
+    for(auto el: weights_query) std::cout << el << " ";
 
     CHECK(
         std::equal(weights_query.begin(), weights_query.end(), expected_weights.begin(),

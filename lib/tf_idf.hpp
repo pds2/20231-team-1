@@ -2,14 +2,14 @@
 #define TF_IDF_HPP
 
 #include <set>
-#include <unordered_map>
+#include <map>
 #include <vector>
 #include "weighting.hpp"
 
 class TfIdf : public Weighting {
 
 private:
-    std::unordered_map<std::string, double> idf_vals;
+    std::map<std::string, double> idf_vals;
     DocumentsData& data;
 
 public:
