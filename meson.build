@@ -6,6 +6,8 @@ testdep = dependency('doctest')
 
 incdir = include_directories('lib')
 
+add_global_arguments('-std=c++17', language: 'cpp')
+
 src = [
     'src/bm25.cpp',
     'src/lsa.cpp',
@@ -19,14 +21,16 @@ executable(
     'idx',
 #    sources: src,
     'src/main.cpp',
-    dependencies: [eigendep])
+    dependencies: [eigendep],
+)
 
 vs_test = executable(
     'test_vs',
     'test/vector_space.cpp',
     'src/vector_space.cpp',
     include_directories : incdir,
-    dependencies: [eigendep, testdep])
+    dependencies: [eigendep, testdep],
+)
 
 test('test vector space ranking', vs_test)
 
@@ -35,7 +39,8 @@ lsa_test = executable(
     'test/lsa.cpp',
     'src/lsa.cpp',
     include_directories : incdir,
-    dependencies: [eigendep, testdep])
+    dependencies: [eigendep, testdep],
+)
 
 test('test lsa ranking', lsa_test)
 
@@ -44,7 +49,7 @@ tfidf_test = executable(
     'test/tfidf.cpp',
     'src/tf_idf.cpp',
     include_directories : incdir,
-    dependencies: [testdep]
+    dependencies: [testdep],
 )
 
 test('test tfidf weighting', tfidf_test)
@@ -54,7 +59,7 @@ bm25_test = executable(
     'test/bm25.cpp',
     'src/bm25.cpp',
     include_directories : incdir,
-    dependencies: [testdep]
+    dependencies: [testdep],
 )
 
 test('test bm25 weighting', bm25_test)
