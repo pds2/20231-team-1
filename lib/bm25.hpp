@@ -9,7 +9,7 @@
 class Bm25 : public Weighting {
 
 private:
-    std::unordered_map<std::string, double> idf_vals;
+    std::map<std::string, double> idf_vals;
     DocumentsData& data;
 
 public:
