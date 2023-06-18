@@ -1,4 +1,5 @@
-project('indexer', 'cpp')
+project('indexer', 'cpp',
+        default_options: ['cpp_std=gnu++17'])
 
 eigendep = dependency('eigen3')
 testdep = dependency('doctest')
