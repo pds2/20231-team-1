@@ -8,6 +8,7 @@
 #include "document.hpp"
 
 class no_file_name_e {}
+class file_not_found_e {}
 
 
 token -> doc_idx, ...

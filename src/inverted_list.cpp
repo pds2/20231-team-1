@@ -14,7 +14,8 @@ bool InvertedList::write_to_disk() {
     }
     FILE* f = fopen(_filename.c_str(), "wb");
     if (f == NULL) {
-        return false; // Throw an exception
+        throw file_not_found_e(); // Throw an exception if the file does not exist
+        return false; 
     }
     for (size_t i = 0; i < size(); ++i) {
         posting_meta block = {static_cast<int>(i), static_cast<int>((*this)[i].size())};
@@ -34,8 +35,10 @@ bool InvertedList::load_from_disk() {
         return false;
     }
     FILE* f = fopen(_filename.c_str(), "rb");
-    if (f == NULL)
+    if (f == NULL) {
+        throw file_not_found_e(); // Throw an exception if the file does not exist
         return false;
+    }
     posting_meta block;
     this->clear();
     while (fread(&block, sizeof(block), 1, f) == 1) {
