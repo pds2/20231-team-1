@@ -7,6 +7,8 @@
 
 #include "document.hpp"
 
+class no_file_name_e {}
+
 
 token -> doc_idx, ...
 doc_idx -> doc_name
