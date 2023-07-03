@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <exception>
 
 #include "../lib/inverted_list.hpp"
 #include "inverted_list.hpp"
