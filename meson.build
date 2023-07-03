@@ -10,6 +10,7 @@ add_global_arguments('-std=c++17', language: 'cpp')
 
 src = [
     'src/bm25.cpp',
+    'src/inverted_list.cpp',
     'src/lsa.cpp',
     'src/main.cpp',
     'src/tf_idf.cpp',
@@ -21,6 +22,7 @@ executable(
     'idx',
 #    sources: src,
     'src/main.cpp',
+    'src/inverted_list.cpp',
     dependencies: [eigendep],
 )
 
