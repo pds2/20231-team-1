@@ -7,6 +7,8 @@
 
 #include "document.hpp"
 
+class no_file_name_e {}
+
 // Define the posting_list class
 class posting_list : public std::vector<int> {
     // Add any additional members or functions as needed
