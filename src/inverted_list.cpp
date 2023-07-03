@@ -3,6 +3,8 @@
 #include <vector>
 
 #include "../lib/inverted_list.hpp"
+#include "inverted_list.hpp"
+
 
 bool InvertedList::write_to_disk() {
     if (_filename.empty()) {
@@ -44,4 +46,7 @@ bool InvertedList::load_from_disk() {
     }
     fclose(f);
     return true;
+}
+create_index(std::string filename)
+{
 }
