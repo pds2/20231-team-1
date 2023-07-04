@@ -1,3 +1,4 @@
+#include "../lib/document.hpp"
 #include "../lib/vector_space.hpp"
 
 #include <iostream>

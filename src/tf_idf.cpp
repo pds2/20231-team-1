@@ -1,6 +1,7 @@
 #include <cmath>
 #include <sstream>
 
+#include "../lib/document.hpp"
 #include "../lib/tf_idf.hpp"
 
 TfIdf::TfIdf(DocumentIndex& index, DocumentsData &data) : Weighting(index), data(data){

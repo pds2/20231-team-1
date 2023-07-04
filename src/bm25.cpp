@@ -1,4 +1,5 @@
 #include "../lib/bm25.hpp"
+#include "../lib/document.hpp"
 
 Bm25::Bm25(DocumentIndex& index, DocumentsData& data) : Weighting(index), data(data){
     

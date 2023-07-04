@@ -1,3 +1,4 @@
+#include "../lib/document.hpp"
 #include "../lib/lsa.hpp"
 
 #include <Eigen/SparseCore>

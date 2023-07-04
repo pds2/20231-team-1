@@ -4,28 +4,28 @@
 #include "../lib/document.hpp"
 #include "../lib/bm25.hpp"
 
-int DocumentsData::get_frequence(std::string term, int doc_idx){
-    std::vector<std::map<std::string, int>> vals = {
-        {
-            {"this", 1}, {"is", 1}, {"a", 2}, {"sample", 1}
-        },
-        {
-            {"this", 1}, {"is", 1}, {"another", 2}, {"example", 3}
-        }
-    };
-    if(vals[doc_idx].count(term) == 0) return 0;
-    return vals[doc_idx][term];
-}
-int DocumentsData::get_qt_docs(){
-    return 2;
-}
-int DocumentsData::get_size(int doc_idx){
-    if(doc_idx == 0) return 5;
-    return 7;
-}
-double DocumentsData::get_avg_size(){
-    return 6.0;
-}
+// int DocumentsData::get_frequence(std::string term, int doc_idx){
+//     std::vector<std::map<std::string, int>> vals = {
+//         {
+//             {"this", 1}, {"is", 1}, {"a", 2}, {"sample", 1}
+//         },
+//         {
+//             {"this", 1}, {"is", 1}, {"another", 2}, {"example", 3}
+//         }
+//     };
+//     if(vals[doc_idx].count(term) == 0) return 0;
+//     return vals[doc_idx][term];
+// }
+// int DocumentsData::get_qt_docs(){
+//     return 2;
+// }
+// int DocumentsData::get_size(int doc_idx){
+//     if(doc_idx == 0) return 5;
+//     return 7;
+// }
+// double DocumentsData::get_avg_size(){
+//     return 6.0;
+// }
 
 DocumentIndex idx_docs = {
         {"this", {0, 1}},

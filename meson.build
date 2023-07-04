@@ -22,7 +22,7 @@ executable(
     'idx',
 #    sources: src,
     'src/main.cpp',
-#    'src/inverted_list.cpp',
+    'src/document.cpp',
     dependencies: [eigendep],
 )
 
@@ -30,6 +30,7 @@ vs_test = executable(
     'test_vs',
     'test/vector_space.cpp',
     'src/vector_space.cpp',
+    'src/document.cpp',
     include_directories : incdir,
     dependencies: [eigendep, testdep],
 )
@@ -40,6 +41,7 @@ lsa_test = executable(
     'test_lsa',
     'test/lsa.cpp',
     'src/lsa.cpp',
+    'src/document.cpp',
     include_directories : incdir,
     dependencies: [eigendep, testdep],
 )
@@ -50,6 +52,7 @@ tfidf_test = executable(
     'test_tfidf',
     'test/tfidf.cpp',
     'src/tf_idf.cpp',
+    'src/document.cpp',
     include_directories : incdir,
     dependencies: [testdep],
 )
@@ -60,6 +63,7 @@ bm25_test = executable(
     'test_bm25',
     'test/bm25.cpp',
     'src/bm25.cpp',
+    'src/document.cpp',
     include_directories : incdir,
     dependencies: [testdep],
 )

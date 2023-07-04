@@ -3,7 +3,7 @@
 
 #include "../lib/document.hpp"
 #include "../lib/tf_idf.hpp"
-
+/*
 int DocumentsData::get_frequence(std::string term, int doc_idx){
     std::vector<std::map<std::string, int>> vals = {
         {
@@ -18,7 +18,7 @@ int DocumentsData::get_frequence(std::string term, int doc_idx){
 int DocumentsData::get_qt_docs(){
     return 2;
 }
-
+*/
 DocumentIndex idx_docs = {
         {"this", {0, 1}},
         {"is", {0, 1}},
