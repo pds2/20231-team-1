@@ -1,29 +1,28 @@
 #include "../lib/bm25.hpp"
+#include "../lib/document.hpp"
 
 Bm25::Bm25(DocumentIndex& index, DocumentsData& data) : Weighting(index), data(data){
     
-// df - Document Frequence
+    // df - Document Frequence
     for(auto term: index)
         idf_vals[term.first] = term.second.size();
 
 
-// Turn df vals to idf - Inverse document frequence
-
+    // Turn df vals to idf - Inverse document frequence
     int total_docs = data.get_qt_docs();
-
     for(auto& term : idf_vals){
         term.second = (total_docs - term.second + 0.5)/(term.second + 0.5);
         term.second = log(term.second + 1);
     }
 
-// Recipe vector
-
+    // Mount the recipe vector
     for(auto term: idf_vals) this->recipe_vector.push_back(term.first);
 }
 
 double Bm25::get_weight(int doc_idx, std::string term){
     // Maybe a exception of doc_idx no exists
     
+    // Calculate the tf value
     double tf = (double) data.get_frequence(term, doc_idx);
     if(tf == 0) return 0.0; 
     
@@ -32,6 +31,7 @@ double Bm25::get_weight(int doc_idx, std::string term){
     int size_doc = data.get_size(doc_idx);
     double avg_size = data.get_avg_size();
 
+    // Score of BM25. See the project's wiki for details.
     double score = (K + 1) * tf;
     score /= K * (1 - B + B * size_doc/avg_size) + tf;
     score *= idf_vals[term];
@@ -57,9 +57,6 @@ std::vector<double> Bm25::get_query_weights(std::string query){
         if(words.count(term) == 0) res.push_back(0);
         else {
             double tf = 1 + log10(words[term]);
-            
-            //double weight = tf;
-
             double weight = idf_vals[term] * (K + 1) * tf / (K + tf); 
             res.push_back(weight);
         }

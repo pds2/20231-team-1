@@ -1,9 +1,10 @@
-#include "document.hpp"
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
+#include "../lib/document.hpp"
 #include "../lib/weighting.hpp"
 #include "../lib/lsa.hpp"
+
 
 class BinaryWeighting : public Weighting {
 public:
@@ -25,9 +26,9 @@ public:
   }
 };
 
-int DocumentsData::get_qt_docs() {
-  return 2;
-}
+// int DocumentsData::get_qt_docs() {
+//   return 2;
+// }
 
 TEST_CASE("testing the lsa ranking") {
   DocumentIndex index = {{"casa", {0, 1}}, {"teto", {0}}, {"agora", {1}}};
