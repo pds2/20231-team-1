@@ -1,5 +1,7 @@
 #include <cstdio>
+#include <cctype>
 #include <dirent.h>
+#include <exception>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -14,7 +16,7 @@ DocumentsData::DocumentsData() {
     // OPEN DIR
     DIR* dir = opendir(DOCS_DIR);
     if (dir == NULL) {
-        // Throw an exception
+        throw dir_not_found_e();  // Throw an exception
         return;
     }
 
@@ -30,7 +32,7 @@ DocumentsData::DocumentsData() {
             // FOR EACH FILE IN DIR, OPEN AND READ ALL WORDS
             FILE* file = fopen(filepath.c_str(), "r");
             if (file == NULL) {
-                // Throw an exception
+                throw file_not_found_e();  // Throw an exception
                 continue;
             }
 
@@ -39,6 +41,9 @@ DocumentsData::DocumentsData() {
 
             while (fscanf(file, "%s", &word[0]) != EOF) {
                 // Convert the word to lowercase --> TODO
+                for (char& c : word) {
+                    c = std::tolower(c);
+                }
                 
                 // FOR EACH WORD IN DOC, COUNT OCCURRENCES
                 word_index[word][doc_idx]++;
