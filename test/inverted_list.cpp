@@ -7,7 +7,7 @@
 
 TEST_CASE("Inverted List Test without a valid dir") {
     try {
-        DocumentsData docData;
+        DocumentsData docData = DocumentsData("../include/");
     } catch (dir_not_found_e& e) {
         std::cout << "Erro" << std::endl;
     }

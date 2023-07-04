@@ -27,7 +27,7 @@ private:
     DocumentIndex convertToDocumentIndex(const std::unordered_map<std::string, std::unordered_map<int, int>>& wordIndex); // private
 
 public:
-    DocumentsData();
+    DocumentsData(const char *dir_name);
     DocumentIndex& get_document_index();
     int get_size(int doc_idx); // número de palavras no arquivo
     double get_avg_size(); // número de palavras médio, considerando todos os arquivos

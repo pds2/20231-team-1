@@ -8,13 +8,13 @@
 
 #include "../lib/document.hpp"
 
-#define DOCS_DIR "../input/"
+//#define DOCS_DIR "../input/"
 
-DocumentsData::DocumentsData() {
+DocumentsData::DocumentsData(const char *dir_name) {
     word_to_doc_index = convertToDocumentIndex(word_index);
 
     // OPEN DIR
-    DIR* dir = opendir(DOCS_DIR);
+    DIR* dir = opendir(dir_name);
     if (dir == NULL) {
         throw dir_not_found_e();  // Throw an exception
     }
@@ -26,7 +26,7 @@ DocumentsData::DocumentsData() {
         // READ ALL FILES IN DIR
         if (entry->d_type == DT_REG) {  // Check if entry is a regular file
             std::string filename = entry->d_name;
-            std::string filepath = std::string(DOCS_DIR) + filename;
+            std::string filepath = std::string(dir_name) + filename;
 
             // FOR EACH FILE IN DIR, OPEN AND READ ALL WORDS
             FILE* file = fopen(filepath.c_str(), "r");
