@@ -17,7 +17,6 @@ DocumentsData::DocumentsData() {
     DIR* dir = opendir(DOCS_DIR);
     if (dir == NULL) {
         throw dir_not_found_e();  // Throw an exception
-        return;
     }
 
     struct dirent* entry;
@@ -37,12 +36,12 @@ DocumentsData::DocumentsData() {
             }
 
             std::string word;
-            word.resize(100); // buffer --> consertar
+            //word.resize(100); // buffer --> consertar
 
             while (fscanf(file, "%s", &word[0]) != EOF) {
                 // Convert the word to lowercase --> TODO
                 for (char& c : word) {
-                    c = std::tolower(c);
+                    c = std::tolower(static_cast<unsigned char>(c));
                 }
                 
                 // FOR EACH WORD IN DOC, COUNT OCCURRENCES
