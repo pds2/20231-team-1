@@ -6,24 +6,22 @@
 
 TfIdf::TfIdf(DocumentIndex& index, DocumentsData &data) : Weighting(index), data(data){
 
-// df - Document Frequence
+    // df - Document Frequence
     for(auto term: index)
         idf_vals[term.first] = term.second.size();
 
-// Turn df vals to idf - Inverse document frequence
-
-	// Change index.size() -> 
+    // Turn df vals to idf - Inverse document frequence
     for(auto& term : idf_vals)  
         term.second = log10(data.get_qt_docs()/term.second);
 	
-// Recipe vector
-
+    // Mount the recipe vector
     for(auto term: idf_vals) this->recipe_vector.push_back(term.first);
 }
 
 double TfIdf::get_weight(int doc_idx, std::string term){
     // Maybe a exception of doc_idx no exists
     
+    // Calculate the tf value
     double tf = (double) data.get_frequence(term, doc_idx);
     if(tf != 0) tf = 1 + log10(tf);
 
@@ -41,7 +39,6 @@ std::vector<double> TfIdf::get_query_weights(std::string query){
         iss >> substr;
         words[substr] += 1;
     }
-
     
     // Following the recipe vector for mount the result vector 
     std::vector<double> res;
