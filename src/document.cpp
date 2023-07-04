@@ -41,7 +41,7 @@ DocumentsData::DocumentsData() {
             while (fscanf(file, "%s", &word[0]) != EOF) {
                 // Convert the word to lowercase --> TODO
                 for (char& c : word) {
-                    c = std::tolower(static_cast<unsigned char>(c));
+                    c = std::tolower(c);
                 }
                 
                 // FOR EACH WORD IN DOC, COUNT OCCURRENCES
