@@ -25,6 +25,10 @@ DocumentsData::DocumentsData(const char *dir_name) {
 
     struct dirent* entry;
     int doc_idx = 0; // Document index counter
+    
+    // CREATE DOC METADATA
+    DocMetadata doc_metadata;
+    
     while ((entry = readdir(dir)) != NULL) { // TODO - determinístico?
 
         // READ ALL FILES IN DIR
@@ -46,10 +50,7 @@ DocumentsData::DocumentsData(const char *dir_name) {
                 // FOR EACH WORD IN DOC, COUNT OCCURRENCES
                 word_index[word][doc_idx]++;
             }
-            // fclose(file);
             
-            // CREATE DOC METADATA
-            DocMetadata doc_metadata;
             // ADD TO WORD_INDEX
             doc_metadata.word_count = word_index.size();
             doc_metadata.name = filename;
