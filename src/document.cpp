@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cctype>
 #include <dirent.h>
+#include <filesystem>
 #include <fstream> 
 #include <exception>
 #include <string>
@@ -10,6 +11,8 @@
 #include "../lib/document.hpp"
 
 //#define DOCS_DIR "../input/"
+
+namespace fs = std::filesystem;
 
 DocumentsData::DocumentsData(const char *dir_name) {
     word_to_doc_index = convertToDocumentIndex(word_index);
@@ -25,9 +28,9 @@ DocumentsData::DocumentsData(const char *dir_name) {
     while ((entry = readdir(dir)) != NULL) { // TODO - determinístico?
 
         // READ ALL FILES IN DIR
-        if (entry->d_type == DT_REG) {  // Check if entry is a regular file
+        if (entry->d_type == DT_REG) {  // Check if entry is a regular file            
             std::string filename = entry->d_name;
-            std::string filepath = std::string(dir_name) + filename;
+            fs::path filepath = fs::path(dir_name) / filename;
 
             // FOR EACH FILE IN DIR, OPEN AND READ ALL WORDS
             std::ifstream file(filepath);
