@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cctype>
 #include <dirent.h>
+#include <fstream> 
 #include <exception>
 #include <string>
 #include <unordered_map>
@@ -29,17 +30,12 @@ DocumentsData::DocumentsData(const char *dir_name) {
             std::string filepath = std::string(dir_name) + filename;
 
             // FOR EACH FILE IN DIR, OPEN AND READ ALL WORDS
-            FILE* file = fopen(filepath.c_str(), "r");
-            if (file == NULL) {
-                throw file_not_found_e();  // Throw an exception
-                continue;
-            }
+            std::ifstream file(filepath);
 
             std::string word;
-            //word.resize(100); // buffer --> consertar
-
-            while (fscanf(file, "%s", &word[0]) != EOF) {
-                // Convert the word to lowercase --> TODO
+            while (file >> word) {
+            // while (fscanf(file, "%s", &word[0]) != EOF) {
+                // Convert the word to lowercase
                 for (char& c : word) {
                     c = std::tolower(c);
                 }
@@ -47,7 +43,7 @@ DocumentsData::DocumentsData(const char *dir_name) {
                 // FOR EACH WORD IN DOC, COUNT OCCURRENCES
                 word_index[word][doc_idx]++;
             }
-            fclose(file);
+            // fclose(file);
             
             // CREATE DOC METADATA
             DocMetadata doc_metadata;
@@ -119,4 +115,8 @@ int DocumentsData::get_frequence(std::string term, int doc_idx) {
         }
     }
     return 0; // Termo ou documento não encontrado
+}
+
+std::string DocumentsData::get_doc_name(int doc_idx) {
+    return doc_metadata[doc_idx].name;
 }

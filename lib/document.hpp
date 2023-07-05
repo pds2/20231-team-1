@@ -33,6 +33,7 @@ public:
     double get_avg_size(); // número de palavras médio, considerando todos os arquivos
     int get_qt_docs(); // número de documentos na pasta input
     int get_frequence(std::string term, int doc_idx); // frequência de cada termo no arquivo
+    std::string get_doc_name(int doc_idx); // fornece o nome do arquivo de um dado index
 };
 
 #endif
