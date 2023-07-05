@@ -1,8 +1,6 @@
 #include "../lib/document.hpp"
 #include "../lib/vector_space.hpp"
 
-#include <iostream>
-
 Eigen::VectorXd VectorSpaceRanking::get_query_vec(Weighting & weighter, std::string query) const{
   Eigen::VectorXd query_vec = Eigen::VectorXd(index.size());
 

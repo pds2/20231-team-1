@@ -55,6 +55,8 @@ DocumentsData::DocumentsData(const char *dir_name) {
             doc_metadata.word_count = word_index.size();
             doc_metadata.name = filename;
 
+            doc_metadatas.insert({doc_idx, doc_metadata});
+
             doc_idx++;
         }
     }
@@ -87,16 +89,16 @@ DocumentIndex& DocumentsData::get_document_index() {
 }
 
 int DocumentsData::get_size(int doc_idx) {
-    if (doc_metadata.find(doc_idx) != doc_metadata.end()) {
-        return doc_metadata[doc_idx].word_count;
+    if (doc_metadatas.find(doc_idx) != doc_metadatas.end()) {
+        return doc_metadatas[doc_idx].word_count;
     }
     return 0; // Index não encontrado
 }
 
 double DocumentsData::get_avg_size() {
     double total_word_count = 0.0;
-    int total_docs = doc_metadata.size();
-    for (const auto& pair : doc_metadata) {
+    int total_docs = doc_metadatas.size();
+    for (const auto& pair : doc_metadatas) {
         total_word_count += pair.second.word_count;
     }
     if (total_docs > 0) {
@@ -106,7 +108,7 @@ double DocumentsData::get_avg_size() {
 }
 
 int DocumentsData::get_qt_docs() {
-    return doc_metadata.size();
+    return doc_metadatas.size();
 }
 
 int DocumentsData::get_frequence(std::string term, int doc_idx) {
@@ -122,5 +124,5 @@ int DocumentsData::get_frequence(std::string term, int doc_idx) {
 }
 
 std::string DocumentsData::get_doc_name(int doc_idx) {
-    return doc_metadata[doc_idx].name;
+    return doc_metadatas[doc_idx].name;
 }

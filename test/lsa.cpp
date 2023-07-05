@@ -1,10 +1,15 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
+#include <filesystem>
+
 #include "../lib/document.hpp"
 #include "../lib/weighting.hpp"
 #include "../lib/lsa.hpp"
 
+#include "utils.cpp"
+
+namespace fs = std::filesystem;
 
 class BinaryWeighting : public Weighting {
 public:
@@ -26,17 +31,19 @@ public:
   }
 };
 
-// int DocumentsData::get_qt_docs() {
-//   return 2;
-// }
-
 TEST_CASE("testing the lsa ranking") {
+  fs::path tmp = fs::temp_directory_path() / "test_lsa";
+  std::map<std::string, std::string> corpus{{"0.txt", "casa teto\n"}, {"1.txt", "casa agora\n"}};
+  utils::create_temp_corpus(tmp, corpus);
+
   DocumentIndex index = {{"casa", {0, 1}}, {"teto", {0}}, {"agora", {1}}};
   BinaryWeighting w(index);
-  DocumentsData data;
+  DocumentsData data(tmp.c_str());
   LsaRanking l(data, index);
 
   std::vector<int> r = l.rank(w, "casa nova agora");
 
   CHECK(r == std::vector<int>{1, 0});
+
+  fs::remove_all(tmp);
 }

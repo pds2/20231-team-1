@@ -23,7 +23,7 @@ private:
     DocumentIndex word_to_doc_index;
 
     std::unordered_map<std::string, std::unordered_map<int, int>> word_index;
-    std::unordered_map<int, DocMetadata> doc_metadata;
+    std::unordered_map<int, DocMetadata> doc_metadatas;
     DocumentIndex convertToDocumentIndex(const std::unordered_map<std::string, std::unordered_map<int, int>>& wordIndex); // private
 
 public:
