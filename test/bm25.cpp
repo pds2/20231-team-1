@@ -1,31 +1,10 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
+#include <filesystem>
 
 #include "../lib/document.hpp"
 #include "../lib/bm25.hpp"
-
-// int DocumentsData::get_frequence(std::string term, int doc_idx){
-//     std::vector<std::map<std::string, int>> vals = {
-//         {
-//             {"this", 1}, {"is", 1}, {"a", 2}, {"sample", 1}
-//         },
-//         {
-//             {"this", 1}, {"is", 1}, {"another", 2}, {"example", 3}
-//         }
-//     };
-//     if(vals[doc_idx].count(term) == 0) return 0;
-//     return vals[doc_idx][term];
-// }
-// int DocumentsData::get_qt_docs(){
-//     return 2;
-// }
-// int DocumentsData::get_size(int doc_idx){
-//     if(doc_idx == 0) return 5;
-//     return 7;
-// }
-// double DocumentsData::get_avg_size(){
-//     return 6.0;
-// }
+#include "utils.cpp"
 
 DocumentIndex idx_docs = {
         {"this", {0, 1}},
@@ -35,10 +14,36 @@ DocumentIndex idx_docs = {
         {"another", {1}},
         {"example", {1}},
 };
-DocumentsData data;
-Bm25 weighter(idx_docs, data);
+
+// temp file path 
+fs::path temp = fs::temp_directory_path() / "test_bm25";
+
+// File name -> File content
+std::map<std::string, std::string> documents = {
+    {"0.txt", "this is a sample a\n"},
+    {"1.txt", "another example this is example another example\n"}
+};
 
 TEST_CASE("Test 1 - bm25 weighting"){
+    utils::create_temp_corpus(temp, documents);
+
+    DocumentsData data(temp.c_str());
+    Bm25 weighter(idx_docs, data);
+
+    //TODO: Remove print lines
+    // Waiting for the tests of documentsdata class 
+    std::cout << "AVG: " << data.get_avg_size() << std::endl;
+    for(int i = 0; i < data.get_qt_docs(); i++){
+        std::cout << "SIZE: " << data.get_size(i) << std::endl;
+
+        for(auto term: idx_docs){
+            std::cout << "------------- " << term.first << std::endl;
+            std::cout << "FREQUENCE " << term.first << ": " << data.get_frequence(term.first, i) << std::endl;
+            std::cout << "WEIGHT: " << weighter.get_weight(i, term.first) << std::endl;        
+        }
+    }
+
+
     double val_weight = weighter.get_weight(0, "example");
 
     // First weight must be equal 0
@@ -51,10 +56,17 @@ TEST_CASE("Test 1 - bm25 weighting"){
     val_expected *= log(2);
 
     CHECK(fabs(val_weight - val_expected) <= std::numeric_limits<double>::epsilon()); 
+    
+    fs::remove_all(temp);
 }
 
 //Fix this entire test case
 TEST_CASE("Test 2 - weights from a query"){
+    utils::create_temp_corpus(temp, documents);
+
+    DocumentsData data(temp.c_str());
+    Bm25 weighter(idx_docs, data);
+
     std::string query = "a sample or example sample";
 
     // recipe vector -> alphabetic ordered 
@@ -76,4 +88,6 @@ TEST_CASE("Test 2 - weights from a query"){
             }
         )
     );
+
+    fs::remove_all(temp);
 }
