@@ -8,6 +8,7 @@
 
 /**
  * @brief Classe que implementa modelo de ponderamento por TF-IDF.
+ *
  *        Seu funcionamento se baseia em calcular o número de aparições 
  *        de um termo num documento e relacionar com sua relevância no 
  *        conjunto de documentos observado. Consulte a wiki do projeto para mais detalhes.

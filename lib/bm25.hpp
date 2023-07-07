@@ -9,7 +9,8 @@
 
 /**
  * @brief Classe que implementa modelo de ponderamento por BM25.
- *        Seu funcionamento extende conceitos avaliados pelo algortimo TF-IDF,
+ *
+ *        Seu funcionamento estende conceitos avaliados pelo algoritmo TF-IDF,
  *        mas considera por exemplo o tamanho dos documentos. 
  *        Consulte a wiki do projeto para mais detalhes.
  */
