@@ -40,6 +40,7 @@ DocumentsData::DocumentsData(const char *dir_name) {
             std::ifstream file(filepath);
 
             std::string word;
+            int word_count = 0;
             while (file >> word) {
             // while (fscanf(file, "%s", &word[0]) != EOF) {
                 // Convert the word to lowercase
@@ -49,10 +50,11 @@ DocumentsData::DocumentsData(const char *dir_name) {
                 
                 // FOR EACH WORD IN DOC, COUNT OCCURRENCES
                 word_index[word][doc_idx]++;
+                word_count++;
             }
             
             // ADD TO WORD_INDEX
-            doc_metadata.word_count = word_index.size();
+            doc_metadata.word_count = word_count;
             doc_metadata.name = filename;
 
             doc_metadatas.insert({doc_idx, doc_metadata});
