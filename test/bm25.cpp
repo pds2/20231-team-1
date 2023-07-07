@@ -30,20 +30,6 @@ TEST_CASE("Test 1 - bm25 weighting"){
     DocumentsData data(temp.c_str());
     Bm25 weighter(idx_docs, data);
 
-    //TODO: Remove print lines
-    // Waiting for the tests of documentsdata class 
-    std::cout << "AVG: " << data.get_avg_size() << std::endl;
-    for(int i = 0; i < data.get_qt_docs(); i++){
-        std::cout << "SIZE: " << data.get_size(i) << std::endl;
-
-        for(auto term: idx_docs){
-            std::cout << "------------- " << term.first << std::endl;
-            std::cout << "FREQUENCE " << term.first << ": " << data.get_frequence(term.first, i) << std::endl;
-            std::cout << "WEIGHT: " << weighter.get_weight(i, term.first) << std::endl;        
-        }
-    }
-
-
     double val_weight = weighter.get_weight(0, "example");
 
     // First weight must be equal 0
@@ -60,7 +46,6 @@ TEST_CASE("Test 1 - bm25 weighting"){
     fs::remove_all(temp);
 }
 
-//Fix this entire test case
 TEST_CASE("Test 2 - weights from a query"){
     utils::create_temp_corpus(temp, documents);
 
