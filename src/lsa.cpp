@@ -1,7 +1,6 @@
 #include "../lib/document.hpp"
 #include "../lib/lsa.hpp"
 
-#include <Eigen/SparseCore>
 #include <Eigen/SVD>
 #include <iostream>
 
@@ -17,7 +16,7 @@ Eigen::VectorXd LsaRanking::get_query_vec(Weighting & weighter, std::string quer
   return query_vec;
 }
 
-void LsaRanking::get_rr_term_document_mat(Weighting & weighter, Eigen::MatrixXd & T, Eigen::VectorXd & s, Eigen::MatrixXd & D) const {
+void LsaRanking::get_rr_term_document_mat(Weighting & weighter) {
   const int N_TERMS = index.size();
   const int N_DOCS = data.get_qt_docs();
 
@@ -49,15 +48,12 @@ void LsaRanking::get_rr_term_document_mat(Weighting & weighter, Eigen::MatrixXd 
   D.conservativeResize(Eigen::NoChange_t(), k);
 }
 
-std::vector<int> LsaRanking::rank(Weighting & weighter, std::string query) const {
-  const int N_DOCS = data.get_qt_docs();
+LsaRanking::LsaRanking(DocumentsData & data, DocumentIndex & index, Weighting & weighter): Ranking(data, index, weighter) {
+  get_rr_term_document_mat(weighter);
+}
 
-  // Computa a matriz termo-documento reduzida 
-  Eigen::MatrixXd T, D;
-  Eigen::VectorXd s;
-  get_rr_term_document_mat(weighter, T, s, D);
-
-  Eigen::MatrixXd DS = D * s.asDiagonal();
+std::vector<int> LsaRanking::rank(std::string query) const {
+  const unsigned int N_DOCS = data.get_qt_docs();
 
   // Computa o vetor da query e o converte para o espaço vetorial reduzido
   Eigen::VectorXd query_vec = get_query_vec(weighter, query);
@@ -65,7 +61,7 @@ std::vector<int> LsaRanking::rank(Weighting & weighter, std::string query) const
 
   // Calcula a relevância de cada documento através do cosseno do ângulo entre eles
   std::vector<std::pair<double, int>> ranking;
-  for (int i = 0; i < N_DOCS; i++) {
+  for (unsigned int i = 0; i < N_DOCS; i++) {
     const Eigen::VectorXd & d = D.row(i) * s.asDiagonal();
     const double cos = hat_query_vec.dot(d) / (hat_query_vec.norm() * d.norm());
     ranking.push_back({cos, i});

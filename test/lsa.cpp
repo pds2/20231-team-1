@@ -39,9 +39,9 @@ TEST_CASE("testing the lsa ranking") {
   DocumentIndex index = {{"casa", {0, 1}}, {"teto", {0}}, {"agora", {1}}};
   BinaryWeighting w(index);
   DocumentsData data(tmp.c_str());
-  LsaRanking l(data, index);
+  LsaRanking l(data, index, w);
 
-  std::vector<int> r = l.rank(w, "casa nova agora");
+  std::vector<int> r = l.rank("casa nova agora");
 
   CHECK(r == std::vector<int>{1, 0});
 

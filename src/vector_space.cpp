@@ -1,5 +1,7 @@
 #include "../lib/document.hpp"
 #include "../lib/vector_space.hpp"
+#include "Eigen/src/Core/Matrix.h"
+#include "ranking.hpp"
 
 Eigen::VectorXd VectorSpaceRanking::get_query_vec(Weighting & weighter, std::string query) const{
   Eigen::VectorXd query_vec = Eigen::VectorXd(index.size());
@@ -13,27 +15,30 @@ Eigen::VectorXd VectorSpaceRanking::get_query_vec(Weighting & weighter, std::str
   return query_vec;
 }
 
-std::vector<int> VectorSpaceRanking::rank(Weighting & weighter, std::string query) const {
-  const Eigen::VectorXd query_vec = get_query_vec(weighter, query);
-
+VectorSpaceRanking::VectorSpaceRanking(DocumentsData & data, DocumentIndex & index, Weighting & weighter): Ranking(data, index, weighter) {
   const int N_TERMS = index.size();
   const int N_DOCS = data.get_qt_docs();
 
-  std::vector<Eigen::VectorXd> vectors(N_DOCS, Eigen::VectorXd(N_TERMS));
+  document_vectors.assign(N_DOCS, Eigen::VectorXd(N_TERMS));
 
   // Preenche os vetores dos documentos com seus pesos de cada termo
   int term_idx = 0;
   for (auto [term, docs] : index) {
     for (int i = 0; i < docs.size(); i++) {
-      vectors[docs[i]][term_idx] = weighter.get_weight(docs[i], term);
+      document_vectors[docs[i]][term_idx] = weighter.get_weight(docs[i], term);
     }
     term_idx++;
   }
 
+}
+
+std::vector<int> VectorSpaceRanking::rank(std::string query) const {
+  const Eigen::VectorXd query_vec = get_query_vec(weighter, query);
+
   // Calcula a relevância de cada documento através do cosseno do ângulo entre eles
   std::vector<std::pair<double, int>> ranking;
   int doc_idx = 0;
-  for (auto &v : vectors) {
+  for (auto &v : document_vectors) {
     // cos(a, b) = (a . b) / (||a|| * ||b||)
     const double cos = query_vec.dot(v) / (query_vec.norm() * v.norm());
     ranking.push_back({cos, doc_idx});

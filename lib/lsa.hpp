@@ -2,6 +2,7 @@
 #define LSARANKING_HPP
 
 #include <Eigen/Core>
+#include <Eigen/SparseCore>
 
 #include "document.hpp"
 #include "ranking.hpp"
@@ -13,19 +14,22 @@
  */
 class LsaRanking : public Ranking {
 private:
-  void get_rr_term_document_mat(Weighting & weighter, Eigen::MatrixXd & T, Eigen::VectorXd & s, Eigen::MatrixXd & D) const;
+  Eigen::MatrixXd T, D;
+  Eigen::VectorXd s;
+  void get_rr_term_document_mat(Weighting & weighter);
   Eigen::VectorXd get_query_vec(Weighting & weighter, std::string query) const;
 public:
   /**
    * @brief Constroe uma instância do modelo LSA de ranqueamento para um dado corpus
+   *
+   * Ao construir a instância desse modelo, os documentos do corpus são pré-processados para as buscas.
    */
-  LsaRanking(DocumentsData & data, DocumentIndex & index) : Ranking(data, index) {}
+  LsaRanking(DocumentsData & data, DocumentIndex & index, Weighting & weighter);
   /**
    * @brief Ranquea os documentos de acordo com a relevância para a query
-   * @param weighter O modelo de ponderamento a ser utilizado
    * @param query A busca do usuário
    */
-  std::vector<int> rank(Weighting & weighter, std::string query) const override;
+  std::vector<int> rank(std::string query) const override;
 };
 
 #endif

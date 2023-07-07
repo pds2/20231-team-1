@@ -41,9 +41,9 @@ TEST_CASE("testing the vector space ranking") {
 
   DocumentsData data(tmp.c_str());
 
-  VectorSpaceRanking vs(data, index);
+  VectorSpaceRanking vs(data, index, w);
 
-  std::vector<int> r = vs.rank(w, "casa nova agora");
+  std::vector<int> r = vs.rank("casa nova agora");
 
   CHECK(r == std::vector<int>{1, 0});
 
