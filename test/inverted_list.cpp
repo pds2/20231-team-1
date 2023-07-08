@@ -14,7 +14,7 @@ namespace fs = std::filesystem;
 
 using DocumentNames = std::map<std::string, std::vector<std::string>>;
 
-TEST_CASE("Inverted List Test without a valid dir") {
+TEST_CASE("01 - Inverted List Test without a valid dir") {
     DOCTEST_CHECK_THROWS_AS(DocumentsData("../include/"), dir_not_found_e);
 }
 
@@ -49,7 +49,7 @@ bool compareDocumentIndex(DocumentNames& names, DocumentIndex& index) {
     return true;
 }
 
-TEST_CASE("Test with a temporary directory") {
+TEST_CASE("02 - Test with a temporary directory") {
     fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
     std::map<std::string, std::string> temp_corpus{{"0.txt", "test one"}, {"1.txt", "test two"}, {"2.txt", "test three"}};
     utils::create_temp_corpus(tmp_dir, temp_corpus);
