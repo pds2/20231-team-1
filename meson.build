@@ -1,13 +1,28 @@
 project('indexer', 'cpp',
         default_options: ['cpp_std=gnu++17'])
 
+add_global_arguments('-std=c++17', language: 'cpp')
+
 eigendep = dependency('eigen3')
-tuidep = dependency('ftxui', modules: ['ftxui::screen', 'ftxui::dom', 'ftxui::component'])
+
+system_tui = dependency('ftxui', required: false, modules: ['ftxui::screen', 'ftxui::dom', 'ftxui::component'])
+
+if system_tui.found()
+  tuidep = system_tui
+else
+  # Use Wrap ftxui
+  ftxui_proj = subproject('ftxui')
+  tuidep = [
+    ftxui_proj.get_variable('screen_dep'),
+    ftxui_proj.get_variable('dom_dep'),
+    ftxui_proj.get_variable('component_dep')
+  ]
+endif
+
+
 testdep = dependency('doctest')
 
 incdir = include_directories('lib')
-
-add_global_arguments('-std=c++17', language: 'cpp')
 
 src = [
     'src/bm25.cpp',

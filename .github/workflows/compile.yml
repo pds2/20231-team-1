@@ -8,7 +8,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Install build dependencies
-        run: sudo apt install -y pkg-config cmake libeigen3-dev doctest-dev
+        run: sudo apt install -y pkg-config make cmake libeigen3-dev doctest-dev libncurses5-dev git
+
       - uses: actions/setup-python@v1
       - name: Build program
         uses: BSFishy/meson-build@v1.0.3
