@@ -7,7 +7,6 @@
 #include <vector>
 
 class dir_not_found_e {};
-class file_not_found_e {};
 
 using DocumentIndex = std::map<std::string, std::vector<int>>;
 
