@@ -14,6 +14,8 @@ protected:
   //! O modelo de ponderamento utilizado
   Weighting & weighter;
 public:
+
+  virtual ~Ranking(){}
   /**
    * @brief Constroe uma instância do modelo de ranqueamento para um dado conjunto de documentos
    * @param data Dados gerais sobre o corpus a ser ranqueado

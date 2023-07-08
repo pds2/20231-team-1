@@ -21,6 +21,8 @@ protected:
   
 public:
 
+  virtual ~Weighting(){}
+
   /**
    * @brief Contrói uma instância de um poderador.
    * 

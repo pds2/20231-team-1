@@ -2,6 +2,7 @@ project('indexer', 'cpp',
         default_options: ['cpp_std=gnu++17'])
 
 eigendep = dependency('eigen3')
+tuidep = dependency('ftxui', modules: ['ftxui::screen', 'ftxui::dom', 'ftxui::component'])
 testdep = dependency('doctest')
 
 incdir = include_directories('lib')
@@ -14,16 +15,16 @@ src = [
     'src/lsa.cpp',
     'src/main.cpp',
     'src/tf_idf.cpp',
+    'src/ui.cpp',
     'src/vector_space.cpp',
-    'src/weightning.cpp',
 ]
 
 executable(
     'idx',
-#    sources: src,
-    'src/main.cpp',
-    'src/document.cpp',
-    dependencies: [eigendep],
+    sources: src,
+    include_directories: incdir,
+    dependencies: [eigendep, tuidep],
+    link_args: ['-no-pie'],
 )
 
 vs_test = executable(
