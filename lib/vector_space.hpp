@@ -22,7 +22,7 @@ public:
    * Ao construir a instância desse modelo, os documentos do corpus são pré-processados para as buscas.
    */
   VectorSpaceRanking(DocumentsData & data, DocumentIndex & index, Weighting & weighter);
-  std::vector<int> rank(std::string query) const override;
+  std::vector<std::pair<double, int>> rank(std::string query) const override;
 };
 
 #endif

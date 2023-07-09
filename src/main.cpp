@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
   DocumentsData data = handle_path_argument(argc, argv);
 
   // TODO: permitir que o usuário troque essas escolhas
-  std::shared_ptr<Weighting> weighter = std::make_shared<TfIdf>(data.get_document_index(), data);
+  std::shared_ptr<Weighting> weighter = std::make_shared<Bm25>(data.get_document_index(), data);
   std::shared_ptr<Ranking> ranker = std::make_shared<VectorSpaceRanking>(data, data.get_document_index(), *weighter);
 
   render_ui(data, *ranker);

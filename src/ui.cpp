@@ -30,12 +30,12 @@ DocumentsData handle_path_argument(int argc, char **argv) {
   return DocumentsData(path.c_str());
 }
 
-// Um ftxui::component que serve como um wrapper responsivo de ftxui::Table
+//! @brief Um ftxui::Component que serve como um wrapper responsivo de ftxui::Table
 class TableComponent : public ftxui::ComponentBase {
  public:
   TableComponent(std::vector<std::vector<std::string>>* data) : data_(data) {}
 
-  // Renderiza a ftxui::Table com o estado atual de data_
+  //! @brief Renderiza a ftxui::Table com o estado atual de data_
   ftxui::Element Render() override {
     using namespace ftxui;
     Table table(*data_);
@@ -43,12 +43,13 @@ class TableComponent : public ftxui::ComponentBase {
     return table.Render();
   }
 
-  // Esse componente não se responsabiliza por tratar nenhum evento
+  //! @brief Esse componente não se responsabiliza por tratar nenhum evento
   bool OnEvent(ftxui::Event event) override {
     return false;
   }
 
  private:
+  //! Dados a serem visualizados
   std::vector<std::vector<std::string>> * data_;
 };
 
@@ -61,13 +62,19 @@ void render_ui(DocumentsData & data, Ranking & ranker) {
   // Callback para atualizar a TableComponent com os novos resultados
   auto input_option = InputOption();
   input_option.on_enter = [&query, &results, &ranker, &data] {
-    std::vector<int> ranking = ranker.rank(query);
+    // Passa a query para minusculas
+    std::string lower_query = query;
+    std::transform(lower_query.begin(), lower_query.end(), lower_query.begin(), ::tolower);
+
+    std::vector<std::pair<double, int>> ranking = ranker.rank(lower_query);
+
+    // Atualiza results
     results.clear();
     unsigned int results_count = 0;
-    for (const int& doc_idx : ranking) {
+    for (const auto& [score, doc_idx] : ranking) {
       // TODO: permitir que o usuário escolha quantos documentos mais relevantes são mostrados
-      if (results_count++ >= 5) break;
-      results.push_back({std::to_string(doc_idx), data.get_doc_name(doc_idx)});
+      if (results_count++ >= 5 || score <= 0.0) break;
+      results.push_back({std::to_string(score * 100), data.get_doc_name(doc_idx)});
     }
   };
 
@@ -82,7 +89,7 @@ void render_ui(DocumentsData & data, Ranking & ranker) {
   auto renderer = Renderer(doc, [&] {
     return vbox({
         hbox(results_table->Render()) | border,
-        hbox(text("Digite sua query: "), query_input->Render()) | border | flex,
+        hbox(text("Busca: "), query_input->Render()) | border | flex,
       });
   });
 

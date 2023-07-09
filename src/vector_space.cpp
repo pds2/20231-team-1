@@ -30,7 +30,7 @@ VectorSpaceRanking::VectorSpaceRanking(DocumentsData & data, DocumentIndex & ind
 
 }
 
-std::vector<int> VectorSpaceRanking::rank(std::string query) const {
+std::vector<std::pair<double, int>> VectorSpaceRanking::rank(std::string query) const {
   const unsigned int N_DOCS = data.get_qt_docs();
 
   const Eigen::SparseVector<double> query_vec = get_query_vec(weighter, query);
@@ -47,11 +47,5 @@ std::vector<int> VectorSpaceRanking::rank(std::string query) const {
   // Ordenamos os documentos da maior à menor relevância
   sort(ranking.begin(), ranking.end(), std::greater<std::pair<double, int>>());
 
-  // Extraímos a lista de índices de documentos ordenados pela relevância
-  std::vector<int> res;
-  for (auto &[_, v] : ranking) {
-    res.push_back(v);
-  }
-
-  return res;
+  return ranking;
 }

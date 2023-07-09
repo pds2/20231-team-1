@@ -28,7 +28,7 @@ public:
    * @brief Ranquea os documentos de acordo com a relevância para a query
    * @param query A busca do usuário
    */
-  std::vector<int> rank(std::string query) const override;
+  std::vector<std::pair<double, int>> rank(std::string query) const override;
 };
 
 #endif
