@@ -37,8 +37,8 @@ TEST_CASE("Test 1 - bm25 weighting"){
     CHECK(fabs(val_weight - val_expected) <= std::numeric_limits<double>::epsilon()); 
 
     val_weight = weighter.get_weight(1, "example");
-    val_expected = (log10(3) + 1) * (K + 1);
-    val_expected /= K * (1 - B + B * 7/6) + (log10(3) + 1);
+    val_expected = (log10(3) + 1) * (BM25_K + 1);
+    val_expected /= BM25_K * (1 - BM25_B + BM25_B * 7/6) + (log10(3) + 1);
     val_expected *= log(2);
 
     CHECK(fabs(val_weight - val_expected) <= std::numeric_limits<double>::epsilon()); 
@@ -56,11 +56,11 @@ TEST_CASE("Test 2 - weights from a query"){
 
     // recipe vector -> alphabetic ordered 
     std::vector<double> expected_weights = {
-        log(2) * (K + 1) / (K + 1),
+        log(2) * (BM25_K + 1) / (BM25_K + 1),
         0.0,
-        log(2) * (K + 1) / (K + 1),
+        log(2) * (BM25_K + 1) / (BM25_K + 1),
         0.0,
-        log(2) * (K + 1) * (1 + log10(2)) /(K + (1 + log10(2))),
+        log(2) * (BM25_K + 1) * (1 + log10(2)) /(BM25_K + (1 + log10(2))),
         0.0
     };
     auto weights_query = weighter.get_query_weights(query); 
