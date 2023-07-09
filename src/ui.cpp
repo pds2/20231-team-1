@@ -8,6 +8,23 @@
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 
+DocumentsData handle_path_argument(std::string dir) {
+  namespace fs = std::filesystem;
+
+  fs::path path = fs::path(dir);
+
+  if (path.is_relative()) {
+    if (!dir.empty() && dir.front() == '~') {
+      std::string homeDir = fs::path(std::getenv("HOME"));
+      path = homeDir / fs::path(dir.substr(1));
+    } else {
+      path = fs::current_path() / path;
+    }
+  }
+
+  return DocumentsData(path.c_str());
+}
+
 DocumentsData handle_path_argument(int argc, char **argv) {
   namespace fs = std::filesystem;
 
