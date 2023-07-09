@@ -1,15 +1,13 @@
 #include "../lib/document.hpp"
 #include "../lib/vector_space.hpp"
-#include "Eigen/src/Core/Matrix.h"
-#include "ranking.hpp"
 
-Eigen::VectorXd VectorSpaceRanking::get_query_vec(Weighting & weighter, std::string query) const{
-  Eigen::VectorXd query_vec = Eigen::VectorXd(index.size());
+Eigen::SparseVector<double> VectorSpaceRanking::get_query_vec(Weighting & weighter, std::string query) const {
+  Eigen::SparseVector<double> query_vec(index.size());
 
   std::vector<double> query_weights = weighter.get_query_weights(query);
 
   for (int i = 0; i < query_weights.size(); i++) {
-    query_vec[i] = query_weights[i];
+    query_vec.coeffRef(i) = query_weights[i];
   }
 
   return query_vec;
@@ -19,13 +17,13 @@ VectorSpaceRanking::VectorSpaceRanking(DocumentsData & data, DocumentIndex & ind
   const int N_TERMS = index.size();
   const int N_DOCS = data.get_qt_docs();
 
-  document_vectors.assign(N_DOCS, Eigen::VectorXd(N_TERMS));
+  document_vectors.assign(N_DOCS, Eigen::SparseVector<double>(N_TERMS));
 
   // Preenche os vetores dos documentos com seus pesos de cada termo
   int term_idx = 0;
   for (auto [term, docs] : index) {
-    for (int i = 0; i < docs.size(); i++) {
-      document_vectors[docs[i]][term_idx] = weighter.get_weight(docs[i], term);
+    for (auto doc : docs) {
+      document_vectors[doc].coeffRef(term_idx) = weighter.get_weight(doc, term);
     }
     term_idx++;
   }
@@ -33,16 +31,17 @@ VectorSpaceRanking::VectorSpaceRanking(DocumentsData & data, DocumentIndex & ind
 }
 
 std::vector<int> VectorSpaceRanking::rank(std::string query) const {
-  const Eigen::VectorXd query_vec = get_query_vec(weighter, query);
+  const unsigned int N_DOCS = data.get_qt_docs();
+
+  const Eigen::SparseVector<double> query_vec = get_query_vec(weighter, query);
 
   // Calcula a relevância de cada documento através do cosseno do ângulo entre eles
   std::vector<std::pair<double, int>> ranking;
-  int doc_idx = 0;
-  for (auto &v : document_vectors) {
+  for (unsigned int i = 0 ; i < N_DOCS; i++) {
     // cos(a, b) = (a . b) / (||a|| * ||b||)
-    const double cos = query_vec.dot(v) / (query_vec.norm() * v.norm());
-    ranking.push_back({cos, doc_idx});
-    doc_idx++;
+    const Eigen::SparseVector<double> & d = document_vectors[i];
+    const double cos = query_vec.dot(d) / (query_vec.norm() * d.norm());
+    ranking.push_back({cos, i});
   }
 
   // Ordenamos os documentos da maior à menor relevância

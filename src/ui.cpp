@@ -59,10 +59,12 @@ void render_ui(DocumentsData & data, Ranking & ranker) {
   std::vector<std::vector<std::string>> results;
 
   auto input_option = InputOption();
-  input_option.on_enter = [&] {
+  input_option.on_enter = [&query, &results, &ranker, &data] {
     std::vector<int> ranking = ranker.rank(query);
     results.clear();
+    unsigned int results_count = 0;
     for (const int& doc_idx : ranking) {
+      if (results_count++ >= 5) break;
       results.push_back({std::to_string(doc_idx), data.get_doc_name(doc_idx)});
     }
   };

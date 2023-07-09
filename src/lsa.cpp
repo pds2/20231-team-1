@@ -2,7 +2,7 @@
 #include "../lib/lsa.hpp"
 
 #include <Eigen/SVD>
-#include <iostream>
+#include <Eigen/SparseCore>
 
 Eigen::VectorXd LsaRanking::get_query_vec(Weighting & weighter, std::string query) const {
   Eigen::VectorXd query_vec = Eigen::VectorXd(index.size());

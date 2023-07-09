@@ -2,7 +2,6 @@
 #define LSARANKING_HPP
 
 #include <Eigen/Core>
-#include <Eigen/SparseCore>
 
 #include "document.hpp"
 #include "ranking.hpp"
