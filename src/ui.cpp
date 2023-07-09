@@ -55,15 +55,17 @@ class TableComponent : public ftxui::ComponentBase {
 void render_ui(DocumentsData & data, Ranking & ranker) {
   using namespace ftxui;
 
-  std::string query;
-  std::vector<std::vector<std::string>> results;
+  std::string query; // A busca do usuário
+  std::vector<std::vector<std::string>> results; // Os dados da tabela
 
+  // Callback para atualizar a TableComponent com os novos resultados
   auto input_option = InputOption();
   input_option.on_enter = [&query, &results, &ranker, &data] {
     std::vector<int> ranking = ranker.rank(query);
     results.clear();
     unsigned int results_count = 0;
     for (const int& doc_idx : ranking) {
+      // TODO: permitir que o usuário escolha quantos documentos mais relevantes são mostrados
       if (results_count++ >= 5) break;
       results.push_back({std::to_string(doc_idx), data.get_doc_name(doc_idx)});
     }
