@@ -18,7 +18,6 @@ TEST_CASE("01 - Inverted List Test without a valid dir") {
     DOCTEST_CHECK_THROWS_AS(DocumentsData("../include/"), dir_not_found_e);
 }
 
-
 // Compare two index:
 bool compareDocumentIndex(DocumentNames& names, DocumentsData& data) {
     bool result = true;
@@ -66,3 +65,37 @@ TEST_CASE("02 - Test document index with a temporary directory") {
     fs::remove_all(tmp_dir);
 }
 
+TEST_CASE("03 - Test avarage size of documents in a temporary directory") {
+    fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
+    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, {"1.txt", "testing this function"}, {"2.txt", "test three, this is a test"}};
+    utils::create_temp_corpus(tmp_dir, temp_corpus);
+
+    DocumentsData data(tmp_dir.c_str());
+    double size = data.get_avg_size();
+    int size1 = data.get_size(0);
+    int size2 = data.get_size(1);
+    int size3 = data.get_size(2);
+    double mean_size = (size1 + size2 + size3) / 3;
+    CHECK(size == mean_size);
+}
+
+TEST_CASE("04 - Test get frequency of terms in documents of a temporary directory") {
+    fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
+    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, {"1.txt", "testing this function"}, {"2.txt", "test three, this is a test"}};
+    utils::create_temp_corpus(tmp_dir, temp_corpus);
+
+    DocumentsData data(tmp_dir.c_str());
+    std::string word = "test";
+    
+    for (int doc_idx = 0; doc_idx < data.get_qt_docs(); doc_idx++) {
+        std::string name = data.get_doc_name(doc_idx);
+        int freq = data.get_frequence("test", doc_idx);
+        if (name == "0.txt") {
+            CHECK(freq == 1);
+        } else if (name == "1.txt") {
+            CHECK(freq == 0);
+        } else if (name == "2.txt") {
+            CHECK(freq == 2);
+        }
+    }
+}
