@@ -19,37 +19,38 @@ TEST_CASE("01 - Inverted List Test without a valid dir") {
 }
 
 
-// Compare two index
-bool compareDocumentIndex(DocumentNames& names, DocumentIndex& index) {
+// Compare two index:
+bool compareDocumentIndex(DocumentNames& names, DocumentsData& data) {
+    bool result = true;
+    DocumentIndex index = data.get_document_index();
     if (names.size() != index.size())
-        return false;
+        result = false;
 
     for (const auto& [word, doc_names_1] : names) {
         auto it = index.find(word);
         if (it == index.end())
-            return false;
+            result = false;
 
         const auto& doc_indices_2 = it->second;
 
         if (doc_names_1.size() != doc_indices_2.size())
-            return false;
+            result = false;
 
-        for (size_t i = 0; i < doc_names_1.size(); i++) {
-            int doc_idx = doc_indices_2[i];
-
-            std::string doc_name_1 = doc_names_1[i];
-            std::string doc_name_2 = std::to_string(doc_idx) + ".txt";
-            std::cout << doc_name_2 << " , 2: " << doc_name_1 << std::endl;
-
-            if (doc_name_1 != doc_name_2)
-                return false;
+        std::set<std::string> doc_names_set(doc_names_1.begin(), doc_names_1.end());
+        std::set<std::string> doc_indices_set;
+        for (int doc_idx : doc_indices_2) {
+            std::string doc_name_2 = data.get_doc_name(doc_idx);
+            doc_indices_set.insert(doc_name_2);
         }
+
+        if (doc_names_set != doc_indices_set)
+            result = false;
     }
 
-    return true;
+    return result;
 }
 
-TEST_CASE("02 - Test with a temporary directory") {
+TEST_CASE("02 - Test document index with a temporary directory") {
     fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
     std::map<std::string, std::string> temp_corpus{{"0.txt", "test one"}, {"1.txt", "test two"}, {"2.txt", "test three"}};
     utils::create_temp_corpus(tmp_dir, temp_corpus);
@@ -60,7 +61,8 @@ TEST_CASE("02 - Test with a temporary directory") {
 
     DocumentsData data(tmp_dir.c_str());
 
-    CHECK(compareDocumentIndex(names, data.get_document_index()));
+    CHECK(compareDocumentIndex(names, data));
 
     fs::remove_all(tmp_dir);
 }
+
