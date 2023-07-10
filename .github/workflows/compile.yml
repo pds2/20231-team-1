@@ -1,4 +1,4 @@
-name: Build Project
+name: CI
 on: [push]
 
 jobs:
@@ -8,7 +8,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Install build dependencies
-        run: sudo apt install -y pkg-config make cmake libeigen3-dev doctest-dev libncurses5-dev git doxygen
+        run: sudo apt install -y pkg-config make cmake libeigen3-dev doctest-dev libncurses5-dev git doxygen libcli11-dev valgrind
 
       - uses: actions/setup-python@v1
       - name: Install coverxygen
@@ -21,5 +21,18 @@ jobs:
         uses: BSFishy/meson-build@v1.0.3
         with:
           action: test
+      - name : Valgrind
+        uses: BSFishy/meson-build@v1.0.3
+        with:
+            action: test
+            options: "--wrap valgrind"
+        env:
+            VALGRIND_OPTS: "--leak-check=full --track-origins=yes --show-reachable=yes --track-fds=yes -s"
+      - name: Valgrind output
+        run: cat build/meson-logs/testlog-valgrind.txt
+      - name: Check code coverage
+        uses: glimchb/meson-build@v1.0.3
+        with:
+            action: coverage
       - name: Check documentation coverage
         run: doxygen && python3 -m coverxygen --xml-dir docs/xml/ --src-dir . --format summary --scope public,protected --output -

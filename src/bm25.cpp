@@ -19,7 +19,6 @@ Bm25::Bm25(DocumentIndex& index, DocumentsData& data) : Weighting(index), data(d
 }
 
 double Bm25::get_weight(int doc_idx, std::string term){
-    // Talvez nao exista uma exceção de doc_idx
 
     // Calcula o valor tf
     double tf = (double) data.get_frequence(term, doc_idx);
@@ -52,14 +51,20 @@ std::vector<double> Bm25::get_query_weights(std::string query){
 
     // Seguindo o recipe vector para montar o vetor de resultado.
     std::vector<double> res;
+    bool is_related = false;
     for(std::string term: recipe_vector){
         if(words.count(term) == 0) res.push_back(0);
         else {
             double tf = 1 + log10(words[term]);
-            double weight = idf_vals[term] * (BM25_K + 1) * tf / (BM25_K + tf);
+            double weight = idf_vals[term] * (BM25_K + 1) * tf / (BM25_K + tf); 
+
             res.push_back(weight);
+            is_related = true;
         }
     }
+
+    if(!is_related) throw UnrelatedQueryException();
+
     return res;
 }
 

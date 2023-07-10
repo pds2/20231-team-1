@@ -76,3 +76,17 @@ TEST_CASE("Test 2 - weights from a query"){
 
     fs::remove_all(temp);
 }
+
+TEST_CASE("Test 3 - checking unrelated query with the docs"){
+    
+    utils::create_temp_corpus(temp, documents);
+
+    DocumentsData data(temp.c_str());
+    Bm25 weighter = Bm25(idx_docs, data);
+
+    std::string query = "that's other query";
+    
+    CHECK_THROWS_AS(weighter.get_query_weights(query), UnrelatedQueryException);
+
+    fs::remove_all(temp);
+}

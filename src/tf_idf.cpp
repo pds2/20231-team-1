@@ -19,8 +19,7 @@ TfIdf::TfIdf(DocumentIndex& index, DocumentsData &data) : Weighting(index), data
 }
 
 double TfIdf::get_weight(int doc_idx, std::string term){
-    // Talvez nao exista uma exceção de doc_idx 
-    
+
     // Calcula o valor tf
     double tf = (double) data.get_frequence(term, doc_idx);
     if(tf != 0) tf = 1 + log10(tf);
@@ -41,15 +40,18 @@ std::vector<double> TfIdf::get_query_weights(std::string query){
     
     // Seguindo o recipe vector para montar o vetor de resultado.
     std::vector<double> res;
-    for(auto term: recipe_vector){
+    bool is_related = false; 
 
+    for(auto term: recipe_vector){
         if(words.count(term) == 0) res.push_back(0);
         else {
             double tf = 1 + log10(words[term]);
             double weight = idf_vals[term] * tf; 
             res.push_back(weight);
+            is_related = true;
         }
     }
+    if(!is_related) throw UnrelatedQueryException();
 
     return res;
 }
