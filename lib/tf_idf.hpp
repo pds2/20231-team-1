@@ -1,8 +1,8 @@
 #ifndef TF_IDF_HPP
 #define TF_IDF_HPP
 
-#include <set>
 #include <map>
+#include <set>
 #include <vector>
 #include "weighting.hpp"
 

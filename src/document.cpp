@@ -10,50 +10,47 @@
 
 #include "../lib/document.hpp"
 
-//#define DOCS_DIR "../input/"
-
 namespace fs = std::filesystem;
 
 DocumentsData::DocumentsData(const char *dir_name) {
     word_to_doc_index = convertToDocumentIndex(word_index);
 
-    // OPEN DIR
+    // Abre o diretorio
     DIR* dir = opendir(dir_name);
     if (dir == NULL) {
-        throw dir_not_found_e();  // Throw an exception
+        throw dir_not_found_e();  // Lança uma excecao
     }
 
     struct dirent* entry;
-    int doc_idx = 0; // Document index counter
+    int doc_idx = 0; // Contador de índice de documentos
     
-    // CREATE DOC METADATA
+    // Cria doc metadata
     DocMetadata doc_metadata;
     
-    while ((entry = readdir(dir)) != NULL) { // TODO - determinístico?
+    while ((entry = readdir(dir)) != NULL) { 
 
-        // READ ALL FILES IN DIR
-        if (entry->d_type == DT_REG) {  // Check if entry is a regular file            
+        // Le todos os arquivos no dir
+        if (entry->d_type == DT_REG) {  // Verificar se a entrada é um arquivo normal            
             std::string filename = entry->d_name;
             fs::path filepath = fs::path(dir_name) / filename;
 
-            // FOR EACH FILE IN DIR, OPEN AND READ ALL WORDS
+            // Para cada arquivo em dir, abre e le todas as palavras
             std::ifstream file(filepath);
 
             std::string word;
             int word_count = 0;
             while (file >> word) {
-            // while (fscanf(file, "%s", &word[0]) != EOF) {
-                // Convert the word to lowercase
+                // Converte a palavra para minusculo
                 for (char& c : word) {
                     c = std::tolower(c);
                 }
                 
-                // FOR EACH WORD IN DOC, COUNT OCCURRENCES
+                // Para cada palavra no documento, conta ocorrências
                 word_index[word][doc_idx]++;
                 word_count++;
             }
             
-            // ADD TO WORD_INDEX
+            // Adiciona para word_index
             doc_metadata.word_count = word_count;
             doc_metadata.name = filename;
 

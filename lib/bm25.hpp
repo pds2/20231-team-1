@@ -4,8 +4,8 @@
 #include "weighting.hpp"
 
 
-#define BM25_K 1.5 // The values are between 1.2 and 2.0. The K constant controls the saturation curve of terms.
-#define BM25_B 0.75 // The B constant controls the documents normalization.
+#define BM25_K 1.5 // Os valores estão entre 1,2 e 2,0. A constante K controla a curva de saturação dos termos
+#define BM25_B 0.75 // A constante B controla a normalização dos documentos.
 
 /**
  * @brief Classe que implementa modelo de ponderamento por BM25.
