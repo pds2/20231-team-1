@@ -87,3 +87,13 @@ bm25_test = executable(
 )
 
 test('test bm25 weighting', bm25_test)
+
+inverted_list_test = executable(
+  'test_il',
+  'test/inverted_list.cpp',
+  'src/document.cpp',
+  include_directories: incdir,
+  dependencies: [testdep],
+)
+
+test('test inverted list', inverted_list_test)

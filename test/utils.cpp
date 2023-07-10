@@ -1,11 +1,12 @@
 #ifndef TEST_UTILS
 #define TEST_UTILS
 
+#include <algorithm>
 #include <filesystem>
-#include <iostream>
 #include <fstream>
 #include <map>
 #include <string>
+#include <vector>
 
 namespace fs = std::filesystem;
 
@@ -28,5 +29,18 @@ namespace utils {
     }
   }
 
+  /**
+   * @brief Extrai os indices de documentos do vetor retornado por `Ranking.rank`
+   */
+  std::vector<int> extract_doc_idxs(std::vector<std::pair<double, int>> ranking) {
+    std::vector<int> doc_idxs(ranking.size());
+
+    std::transform(ranking.begin(),
+                   ranking.end(),
+                   doc_idxs.begin(),
+                   [](const std::pair<double, int> r) {return r.second;});
+
+    return doc_idxs;
+  }
 }
 #endif

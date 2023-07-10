@@ -58,6 +58,7 @@ std::vector<double> Bm25::get_query_weights(std::string query){
         else {
             double tf = 1 + log10(words[term]);
             double weight = idf_vals[term] * (BM25_K + 1) * tf / (BM25_K + tf); 
+
             res.push_back(weight);
             is_related = true;
         }

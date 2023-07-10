@@ -2,7 +2,6 @@
 #define LSARANKING_HPP
 
 #include <Eigen/Core>
-#include <Eigen/SparseCore>
 
 #include "document.hpp"
 #include "ranking.hpp"
@@ -29,7 +28,7 @@ public:
    * @brief Ranquea os documentos de acordo com a relevância para a query
    * @param query A busca do usuário
    */
-  std::vector<int> rank(std::string query) const override;
+  std::vector<std::pair<double, int>> rank(std::string query) const override;
 };
 
 #endif

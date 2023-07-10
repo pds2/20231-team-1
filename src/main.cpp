@@ -1,12 +1,12 @@
 #include "../lib/ui.hpp"
-#include "document.hpp"
+#include "../lib/document.hpp"
 
-#include "weighting.hpp"
-#include "bm25.hpp"
-#include "tf_idf.hpp"
+#include "../lib/weighting.hpp"
+#include "../lib/bm25.hpp"
+#include "../lib/tf_idf.hpp"
 
-#include "lsa.hpp"
-#include "vector_space.hpp"
+#include "../lib/lsa.hpp"
+#include "../lib/vector_space.hpp"
 
 #include <memory>
 
@@ -42,6 +42,7 @@ int main(int argc, char* argv[]) {
   std::unique_ptr<Ranking> ranker;
   if(lsi_wanted) ranker = std::make_unique<LsaRanking>(data, data.get_document_index(), *weighter);
   else ranker = std::make_unique<VectorSpaceRanking>(data, data.get_document_index(), *weighter);
+
 
   render_ui(data, *ranker);
 

@@ -41,9 +41,11 @@ TEST_CASE("testing the lsa ranking") {
   DocumentsData data(tmp.c_str());
   LsaRanking l(data, index, w);
 
-  std::vector<int> r = l.rank("casa nova agora");
+  std::vector<std::pair<double, int>> r = l.rank("casa nova agora");
 
-  CHECK(r == std::vector<int>{1, 0});
+  std::vector<int> ds = utils::extract_doc_idxs(r);
+
+  CHECK(ds == std::vector<int>{1, 0});
 
   fs::remove_all(tmp);
 }

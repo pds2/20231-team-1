@@ -8,9 +8,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Install build dependencies
-        run: sudo apt install -y pkg-config make cmake libeigen3-dev doctest-dev libncurses5-dev git
+        run: sudo apt install -y pkg-config make cmake libeigen3-dev doctest-dev libncurses5-dev git doxygen
 
       - uses: actions/setup-python@v1
+      - name: Install coverxygen
+        run: pip3 install coverxygen
       - name: Build program
         uses: BSFishy/meson-build@v1.0.3
         with:
@@ -19,3 +21,5 @@ jobs:
         uses: BSFishy/meson-build@v1.0.3
         with:
           action: test
+      - name: Check documentation coverage
+        run: doxygen && python3 -m coverxygen --xml-dir docs/xml/ --src-dir . --format summary --scope public,protected --output -

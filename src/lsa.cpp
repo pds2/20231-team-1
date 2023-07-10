@@ -2,7 +2,7 @@
 #include "../lib/lsa.hpp"
 
 #include <Eigen/SVD>
-#include <iostream>
+#include <Eigen/SparseCore>
 
 Eigen::VectorXd LsaRanking::get_query_vec(Weighting & weighter, std::string query) const {
   Eigen::VectorXd query_vec = Eigen::VectorXd(index.size());
@@ -52,7 +52,7 @@ LsaRanking::LsaRanking(DocumentsData & data, DocumentIndex & index, Weighting & 
   get_rr_term_document_mat(weighter);
 }
 
-std::vector<int> LsaRanking::rank(std::string query) const {
+std::vector<std::pair<double, int>> LsaRanking::rank(std::string query) const {
   const unsigned int N_DOCS = data.get_qt_docs();
 
   // Computa o vetor da query e o converte para o espaço vetorial reduzido
@@ -70,11 +70,5 @@ std::vector<int> LsaRanking::rank(std::string query) const {
   // Ordenamos os documentos da maior à menor relevância
   sort(ranking.begin(), ranking.end(), std::greater<std::pair<double, int>>());
 
-  // Extraímos a lista de índices de documentos ordenados pela relevância
-  std::vector<int> res;
-  for (auto &[_, v] : ranking) {
-    res.push_back(v);
-  }
-
-  return res;
+  return ranking;
 }

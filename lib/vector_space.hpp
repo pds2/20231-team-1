@@ -2,6 +2,7 @@
 #define VECTOR_SPACE_HPP
 
 #include <Eigen/Core>
+#include <Eigen/SparseCore>
 
 #include "ranking.hpp"
 #include "document.hpp"
@@ -12,8 +13,8 @@
 */
 class VectorSpaceRanking : public Ranking {
 private:
-  std::vector<Eigen::VectorXd> document_vectors;
-  Eigen::VectorXd get_query_vec(Weighting & weighter, std::string query) const;
+  std::vector<Eigen::SparseVector<double>> document_vectors;
+  Eigen::SparseVector<double> get_query_vec(Weighting & weighter, std::string query) const;
 public:
   /**
    * @brief Constroe uma instância do modelo vetorial de ranqueamento para um dado conjunto de documentos
@@ -21,7 +22,7 @@ public:
    * Ao construir a instância desse modelo, os documentos do corpus são pré-processados para as buscas.
    */
   VectorSpaceRanking(DocumentsData & data, DocumentIndex & index, Weighting & weighter);
-  std::vector<int> rank(std::string query) const override;
+  std::vector<std::pair<double, int>> rank(std::string query) const override;
 };
 
 #endif

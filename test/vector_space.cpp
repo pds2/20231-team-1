@@ -43,9 +43,11 @@ TEST_CASE("testing the vector space ranking") {
 
   VectorSpaceRanking vs(data, index, w);
 
-  std::vector<int> r = vs.rank("casa nova agora");
+  std::vector<std::pair<double, int>> r = vs.rank("casa nova agora");
 
-  CHECK(r == std::vector<int>{1, 0});
+  std::vector<int> ds = utils::extract_doc_idxs(r);
+
+  CHECK(ds == std::vector<int>{1, 0});
 
   fs::remove_all(tmp);
 }

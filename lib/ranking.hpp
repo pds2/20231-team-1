@@ -27,7 +27,7 @@ public:
    * @brief Ranquea os documentos de acordo com a relevância para a query
    * @param query a busca do usuário
    */
-  virtual std::vector<int> rank(std::string query) const = 0;
+  virtual std::vector<std::pair<double, int>> rank(std::string query) const = 0;
 };
 
 #endif
