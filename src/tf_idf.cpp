@@ -6,22 +6,22 @@
 
 TfIdf::TfIdf(DocumentIndex& index, DocumentsData &data) : Weighting(index), data(data){
 
-    // df - Document Frequence
+    // df - Frequencia do Documento
     for(auto term: index)
         idf_vals[term.first] = term.second.size();
 
-    // Turn df vals to idf - Inverse document frequence
+    // Transforma os valores df em idf - Frequencia Inversa do Documento
     for(auto& term : idf_vals)  
         term.second = log10(data.get_qt_docs()/term.second);
 	
-    // Mount the recipe vector
+    // Monta o recipe vector
     for(auto term: idf_vals) this->recipe_vector.push_back(term.first);
 }
 
 double TfIdf::get_weight(int doc_idx, std::string term){
-    // Maybe a exception of doc_idx no exists
+    // Talvez nao exista uma exceção de doc_idx 
     
-    // Calculate the tf value
+    // Calcula o valor tf
     double tf = (double) data.get_frequence(term, doc_idx);
     if(tf != 0) tf = 1 + log10(tf);
 
@@ -29,8 +29,7 @@ double TfIdf::get_weight(int doc_idx, std::string term){
 }
 
 std::vector<double> TfIdf::get_query_weights(std::string query){
-
-    // Splitting the query and add its words to a map
+    // Dividindo a consulta e adicionando suas palavras a um map
     std::istringstream iss(query);
     std::map<std::string, int> words;
 
@@ -40,7 +39,7 @@ std::vector<double> TfIdf::get_query_weights(std::string query){
         words[substr] += 1;
     }
     
-    // Following the recipe vector for mount the result vector 
+    // Seguindo o recipe vector para montar o vetor de resultado.
     std::vector<double> res;
     for(auto term: recipe_vector){
 
