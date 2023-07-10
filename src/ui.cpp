@@ -50,6 +50,7 @@ DocumentsData handle_path_argument(int argc, char **argv) {
 //! @brief Um ftxui::Component que serve como um wrapper responsivo de ftxui::Table
 class TableComponent : public ftxui::ComponentBase {
  public:
+  //! @param data std::vector<std::vector<std::string>>* Os dados que compõem a tabela
   TableComponent(std::vector<std::vector<std::string>>* data) : data_(data) {}
 
   //! @brief Renderiza a ftxui::Table com o estado atual de data_
