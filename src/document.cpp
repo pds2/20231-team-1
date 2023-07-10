@@ -37,12 +37,16 @@ DocumentsData::DocumentsData(const char *dir_name) {
             // Para cada arquivo em dir, abre e le todas as palavras
             std::ifstream file(filepath);
 
-            std::string word;
+            std::string token;
             int word_count = 0;
-            while (file >> word) {
+            while (file >> token) {
                 // Converte a palavra para minusculo
-                for (char& c : word) {
-                    c = std::tolower(c);
+                std::string word;
+                for (char& c : token) {
+                    if (ispunct(c)) {
+                        continue;
+                    }
+                    word.push_back(std::tolower(c));
                 }
                 
                 // Para cada palavra no documento, conta ocorrências
