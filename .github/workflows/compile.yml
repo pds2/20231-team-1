@@ -8,7 +8,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Install build dependencies
-        run: sudo apt install -y pkg-config make cmake libeigen3-dev doctest-dev libncurses5-dev git doxygen
+        run: sudo apt install -y pkg-config make cmake libeigen3-dev doctest-dev libncurses5-dev git doxygen libcli11-dev
 
       - uses: actions/setup-python@v1
       - name: Install coverxygen
