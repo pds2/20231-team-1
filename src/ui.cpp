@@ -97,7 +97,6 @@ void render_ui(DocumentsData & data, Ranking & ranker, int max_results) {
       
       unsigned int results_count = 0;
       for (const auto& [score, doc_idx] : ranking) {
-        // TODO: permitir que o usuário escolha quantos documentos mais relevantes são mostrados
         if (results_count++ >= max_results || score <= 0.0) break;
         results.push_back({std::to_string(score * 100), data.get_doc_name(doc_idx)});
       }
@@ -119,12 +118,22 @@ void render_ui(DocumentsData & data, Ranking & ranker, int max_results) {
     });
 
   auto renderer = Renderer(doc, [&] {
-    return vbox({
+    return vbox({ 
         hbox(results_table->Render()) | border,
         hbox(text("Busca: "), query_input->Render()) | border | flex,
       });
   });
 
   auto screen = ScreenInteractive::TerminalOutput();
+
+  // Sai quando eh pressionado o ESC
+  renderer |= CatchEvent([&](Event event) -> bool{
+    if(event == Event::Escape){
+      screen.ExitLoopClosure()();
+      return true;
+    }
+    return false;
+  });
+  
   screen.Loop(renderer);
 }

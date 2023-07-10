@@ -23,6 +23,7 @@ public:
 
 };
 
+//! @brief Lista invertida dos documentos
 using DocumentIndex = std::map<std::string, std::vector<int>>;
 
 //! @brief Classe abstrata que organiza os documentos implementando uma lista invertida
