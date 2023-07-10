@@ -10,12 +10,11 @@
 
 #include <memory>
 
-
 #include <CLI/CLI.hpp>
 
 int main(int argc, char* argv[]) {
 
-  CLI::App app;
+  CLI::App app{"Files Indexer"};
 
   // Option directory
   std::string directory = "";  
@@ -24,8 +23,9 @@ int main(int argc, char* argv[]) {
   std::string weighter_name = "TFIDF"; // The default weighter is the tfidf
   app.add_option("--weighter, -w", weighter_name, "Set the weighter, can be //TODO Optional flag");
 
+  bool lsi_wanted = false;
 
-  CLI::Option *lsi_wanted = app.add_flag("--lsi, --lsa", "Use lsi ranker instead vector-space ranker (Default ranker).");
+  app.add_flag("--lsi, --lsa", lsi_wanted, "Use lsi ranker instead vector-space ranker (Default ranker).");
 
   CLI11_PARSE(app, argc, argv);
 
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
 
   //Setting the ranker
   std::unique_ptr<Ranking> ranker;
-  if(*lsi_wanted) ranker = std::make_unique<LsaRanking>(data, data.get_document_index(), *weighter);
+  if(lsi_wanted) ranker = std::make_unique<LsaRanking>(data, data.get_document_index(), *weighter);
   else ranker = std::make_unique<VectorSpaceRanking>(data, data.get_document_index(), *weighter);
 
   render_ui(data, *ranker);
