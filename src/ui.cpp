@@ -70,7 +70,7 @@ class TableComponent : public ftxui::ComponentBase {
   std::vector<std::vector<std::string>> * data_;
 };
 
-void render_ui(DocumentsData & data, Ranking & ranker) {
+void render_ui(DocumentsData & data, Ranking & ranker, int max_results) {
   using namespace ftxui;
 
   std::string query; // A busca do usuário
@@ -78,7 +78,7 @@ void render_ui(DocumentsData & data, Ranking & ranker) {
 
   // Callback para atualizar a TableComponent com os novos resultados
   auto input_option = InputOption();
-  input_option.on_enter = [&query, &results, &ranker, &data] {
+  input_option.on_enter = [&query, &results, &ranker, &data, &max_results] {
     // Passa a query para minusculas
     std::string lower_query = query;
     std::transform(lower_query.begin(), lower_query.end(), lower_query.begin(), ::tolower);
@@ -92,7 +92,7 @@ void render_ui(DocumentsData & data, Ranking & ranker) {
       unsigned int results_count = 0;
       for (const auto& [score, doc_idx] : ranking) {
         // TODO: permitir que o usuário escolha quantos documentos mais relevantes são mostrados
-        if (results_count++ >= 5 || score <= 0.0) break;
+        if (results_count++ >= max_results || score <= 0.0) break;
         results.push_back({std::to_string(score * 100), data.get_doc_name(doc_idx)});
       }
 
