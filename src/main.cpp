@@ -23,6 +23,9 @@ int main(int argc, char* argv[]) {
   std::string weighter_name = "TFIDF"; // The default weighter is the tfidf
   app.add_option("--weighter, -w", weighter_name, "Set the weighter - TFIDF(Default) or BM25. Optional flag");
 
+  int max_results = 5;
+  app.add_option("--maxres, -n", max_results, "Set the max results on table of results (Default=5). Optional flag ");
+
   bool lsi_wanted = false;
 
   app.add_flag("--lsi, --lsa", lsi_wanted, "Use lsi ranker instead vector-space ranker (Default ranker)");
@@ -30,7 +33,7 @@ int main(int argc, char* argv[]) {
   CLI11_PARSE(app, argc, argv);
 
   // Setting the path
-  DocumentsData data = handle_path_argument(directory); // Maybe a exception here??
+  DocumentsData data = handle_path_argument(directory);
   
 
   // Setting the weighter
@@ -43,10 +46,7 @@ int main(int argc, char* argv[]) {
   if(lsi_wanted) ranker = std::make_unique<LsaRanking>(data, data.get_document_index(), *weighter);
   else ranker = std::make_unique<VectorSpaceRanking>(data, data.get_document_index(), *weighter);
 
-
-  render_ui(data, *ranker);
-
-  //// TODO: permitir que o usuário troque essas escolhas
+  render_ui(data, *ranker, max_results);
 
   return 0;
 }
