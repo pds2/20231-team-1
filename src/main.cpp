@@ -18,14 +18,14 @@ int main(int argc, char* argv[]) {
 
   // Option directory
   std::string directory = "";  
-  app.add_option("--directory, -d", directory, "Set the directory in which the ranker will work. Required flag.")->required();
+  app.add_option("directory", directory, "Set the directory in which the ranker will work. Required value")->required();
 
   std::string weighter_name = "TFIDF"; // The default weighter is the tfidf
-  app.add_option("--weighter, -w", weighter_name, "Set the weighter, can be //TODO Optional flag");
+  app.add_option("--weighter, -w", weighter_name, "Set the weighter - TFIDF(Default) or BM25. Optional flag");
 
   bool lsi_wanted = false;
 
-  app.add_flag("--lsi, --lsa", lsi_wanted, "Use lsi ranker instead vector-space ranker (Default ranker).");
+  app.add_flag("--lsi, --lsa", lsi_wanted, "Use lsi ranker instead vector-space ranker (Default ranker)");
 
   CLI11_PARSE(app, argc, argv);
 
