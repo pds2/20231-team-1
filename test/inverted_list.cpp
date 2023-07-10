@@ -75,7 +75,7 @@ TEST_CASE("03 - Test avarage size of documents in a temporary directory") {
     int size1 = data.get_size(0);
     int size2 = data.get_size(1);
     int size3 = data.get_size(2);
-    double mean_size = (size1 + size2 + size3) / 3;
+    double mean_size = ((double)size1 + (double)size2 + (double)size3) / 3;
     CHECK(size == mean_size);
 
     fs::remove_all(tmp_dir);
