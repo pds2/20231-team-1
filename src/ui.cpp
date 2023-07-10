@@ -97,7 +97,6 @@ void render_ui(DocumentsData & data, Ranking & ranker, int max_results) {
       
       unsigned int results_count = 0;
       for (const auto& [score, doc_idx] : ranking) {
-        // TODO: permitir que o usuário escolha quantos documentos mais relevantes são mostrados
         if (results_count++ >= max_results || score <= 0.0) break;
         results.push_back({std::to_string(score * 100), data.get_doc_name(doc_idx)});
       }
