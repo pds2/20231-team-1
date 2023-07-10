@@ -22,6 +22,8 @@ endif
 
 testdep = dependency('doctest')
 
+clidep = dependency('CLI11')
+
 incdir = include_directories('lib')
 
 src = [
@@ -38,7 +40,7 @@ executable(
     'idx',
     sources: src,
     include_directories: incdir,
-    dependencies: [eigendep, tuidep],
+    dependencies: [eigendep, tuidep, clidep],
     link_args: ['-no-pie'],
 )
 
