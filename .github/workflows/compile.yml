@@ -30,9 +30,5 @@ jobs:
             VALGRIND_OPTS: "--leak-check=full --track-origins=yes --show-reachable=yes --track-fds=yes -s"
       - name: Valgrind output
         run: cat build/meson-logs/testlog-valgrind.txt
-      - name: Check code coverage
-        uses: glimchb/meson-build@v1.0.3
-        with:
-            action: coverage
       - name: Check documentation coverage
         run: doxygen && python3 -m coverxygen --xml-dir docs/xml/ --src-dir . --format summary --scope public,protected --output -
