@@ -22,7 +22,12 @@ DocumentsData handle_path_argument(std::string dir) {
     }
   }
 
-  return DocumentsData(path.c_str());
+  try {
+    return DocumentsData(path.c_str());
+  } catch (DirNotFoundException) {
+    std::cerr << "O diretório " << path << " não foi encontrado!" << std::endl;
+    exit(1);
+  }
 }
 
 DocumentsData handle_path_argument(int argc, char **argv) {

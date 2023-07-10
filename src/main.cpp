@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
   CLI11_PARSE(app, argc, argv);
 
   // Setting the path
-  DocumentsData data = handle_path_argument(directory); // Maybe a exception here??
+  DocumentsData data = handle_path_argument(directory);
   
 
   // Setting the weighter
