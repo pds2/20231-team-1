@@ -10,8 +10,17 @@
 
 #include "document.hpp"
 
+/**
+ * @brief Exceção usada quando é detectado que a busca não tem relação com nenhum documento do corpus.
+ * 
+ */
 class UnrelatedQueryException : public std::exception {
 public:
+  /**
+   * @brief Função que mostra o que aconteceu para essa exceção ser lançada.
+   * 
+   * @return const char* Explicação.
+   */
   virtual const char* what() const noexcept{
     return "Essa busca nao esta relaciona a nenhum documento";
   }

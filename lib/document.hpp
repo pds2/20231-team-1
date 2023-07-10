@@ -6,7 +6,22 @@
 #include <unordered_map>
 #include <vector>
 
-class dir_not_found_e {};
+/**
+ * @brief Exceção usada quando o diretório passado não é encontrado
+ * 
+ */
+class DirNotFoundException : public std::exception {
+public:
+  /**
+   * @brief Função que mostra o que aconteceu para essa exceção ser lançada.
+   * 
+   * @return const char* Explicação.
+   */
+  virtual const char* what() const noexcept{
+    return "Diretorio nao encontrado";
+  }
+
+};
 
 using DocumentIndex = std::map<std::string, std::vector<int>>;
 

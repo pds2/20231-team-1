@@ -18,7 +18,7 @@ DocumentsData::DocumentsData(const char *dir_name) {
     // Abre o diretorio
     DIR* dir = opendir(dir_name);
     if (dir == NULL) {
-        throw dir_not_found_e();  // Lança uma excecao
+        throw DirNotFoundException();  // Lança uma excecao
     }
 
     struct dirent* entry;

@@ -35,6 +35,9 @@
 *.out
 *.app
 
+# Doxigen Files
+/docs/*
+
 ### Meson ###
 # subproject directories
 /subprojects/*
