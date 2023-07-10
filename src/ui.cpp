@@ -112,10 +112,6 @@ void render_ui(DocumentsData & data, Ranking & ranker) {
       results_table,
     });
 
-  doc->OnEvent(Event ev) override {
-
-  }
-
   auto renderer = Renderer(doc, [&] {
     return vbox({
         hbox(results_table->Render()) | border,
