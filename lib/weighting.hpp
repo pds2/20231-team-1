@@ -32,7 +32,9 @@ public:
 class Weighting {
 
 protected:
+  //! Lista invertida do corpus
   DocumentIndex& index;
+  //! Vetor que guarda a ordem para montar os vetores de peso
   std::vector<std::string> recipe_vector;
   
 public:
