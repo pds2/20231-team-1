@@ -13,7 +13,7 @@
 class UnrelatedQueryException : public std::exception {
 public:
   virtual const char* what() const noexcept{
-    return "The given query is not related to any document!";
+    return "Essa busca nao esta relaciona a nenhum documento";
   }
 };
 

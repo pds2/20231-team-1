@@ -83,19 +83,28 @@ void render_ui(DocumentsData & data, Ranking & ranker) {
     std::string lower_query = query;
     std::transform(lower_query.begin(), lower_query.end(), lower_query.begin(), ::tolower);
 
-    std::vector<std::pair<double, int>> ranking = ranker.rank(lower_query);
-
-    // Atualiza results
     results.clear();
-    unsigned int results_count = 0;
-    for (const auto& [score, doc_idx] : ranking) {
-      // TODO: permitir que o usuário escolha quantos documentos mais relevantes são mostrados
-      if (results_count++ >= 5 || score <= 0.0) break;
-      results.push_back({std::to_string(score * 100), data.get_doc_name(doc_idx)});
+    try{
+    
+      std::vector<std::pair<double, int>> ranking = ranker.rank(lower_query);
+      // Atualiza results
+      
+      unsigned int results_count = 0;
+      for (const auto& [score, doc_idx] : ranking) {
+        // TODO: permitir que o usuário escolha quantos documentos mais relevantes são mostrados
+        if (results_count++ >= 5 || score <= 0.0) break;
+        results.push_back({std::to_string(score * 100), data.get_doc_name(doc_idx)});
+      }
+
+    }catch(UnrelatedQueryException &e){
+      
+      results.push_back({"ERRO", e.what()});
+
     }
+    
   };
 
-  auto query_input = Input(&query, "query", input_option);
+  auto query_input = Input(&query, "Digite sua busca", input_option);
   auto results_table = Make<TableComponent>(&results);
 
   auto doc = Container::Vertical({
