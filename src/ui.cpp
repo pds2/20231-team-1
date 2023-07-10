@@ -118,12 +118,22 @@ void render_ui(DocumentsData & data, Ranking & ranker, int max_results) {
     });
 
   auto renderer = Renderer(doc, [&] {
-    return vbox({
+    return vbox({ 
         hbox(results_table->Render()) | border,
         hbox(text("Busca: "), query_input->Render()) | border | flex,
       });
   });
 
   auto screen = ScreenInteractive::TerminalOutput();
+
+  // Sai quando eh pressionado o ESC
+  renderer |= CatchEvent([&](Event event) -> bool{
+    if(event == Event::Escape){
+      screen.ExitLoopClosure()();
+      return true;
+    }
+    return false;
+  });
+  
   screen.Loop(renderer);
 }
