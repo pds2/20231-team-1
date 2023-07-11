@@ -48,6 +48,8 @@ DocumentsData::DocumentsData(const char *dir_name) {
                     }
                     word.push_back(std::tolower(c));
                 }
+
+                if (word.empty()) continue;
                 
                 // Para cada palavra no documento, conta ocorrências
                 word_index[word][doc_idx]++;
