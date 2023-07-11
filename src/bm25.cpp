@@ -43,9 +43,8 @@ std::vector<double> Bm25::get_query_weights(std::string query){
     std::istringstream iss(query);
     std::map<std::string, int> words;
 
-    while(iss){
-        std::string substr;
-        iss >> substr;
+    std::string substr;
+    while(iss >> substr){
         words[substr] += 1;
     }
 

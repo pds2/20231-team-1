@@ -32,8 +32,8 @@ std::vector<double> TfIdf::get_query_weights(std::string query){
     std::istringstream iss(query);
     std::map<std::string, int> words;
 
-    while(iss){
-        std::string substr;
+    std::string substr;
+    while(iss >> substr){
         iss >> substr;
         words[substr] += 1;
     }
