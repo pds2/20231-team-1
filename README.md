@@ -47,4 +47,7 @@ Para rodar os testes unitários, basta rodar o comando abaixo:
 ``` shell
 meson test -C build
 ```
+### WIKI
+
+Para detalhes sobre os algoritmos usados no projeto consulte nossa wiki.
 
