@@ -47,7 +47,12 @@ Para rodar os testes unitários, basta rodar o comando abaixo:
 ``` shell
 meson test -C build
 ```
-### WIKI
+
+### Documentação
+
+Para obter a documentação, basta rodar o comando ``` doxygen ``` na raiz do projeto.
+
+## WIKI
 
 Para detalhes sobre os algoritmos usados no projeto consulte nossa wiki.
 
