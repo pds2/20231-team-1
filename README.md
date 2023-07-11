@@ -26,7 +26,7 @@ Para instalar todos as dependências em um ambiente Ubuntu LTS, basta rodar o co
 sudo apt install -y meson pkg-config cmake libeigen3-dev doctest-dev libcli11-dev
 ```
 
-**OBS:** a biblioteca [FTXUI](https://github.com/ArthurSonzogni/FTXUI) não está disponivel nos repositórios do Ubuntu. Por isso, o projeto contém um [Meson Wrap](https://mesonbuild.com/Wrap-dependency-system-manual.html) dela. Caso a biblioteca esteja instalada no sistema, essa instalação será usada, caso contrário o wrap é usado automaticamente durante a compilação.
+**OBS:** a biblioteca [FTXUI](https://github.com/ArthurSonzogni/FTXUI) não está disponível nos repositórios do Ubuntu. Por isso, o projeto contém um [Meson Wrap](https://mesonbuild.com/Wrap-dependency-system-manual.html) dela. Caso a biblioteca esteja instalada no sistema, essa instalação será usada, caso contrário o wrap é usado automaticamente durante a compilação.
 
 ### Compilação
 
@@ -47,4 +47,12 @@ Para rodar os testes unitários, basta rodar o comando abaixo:
 ``` shell
 meson test -C build
 ```
+
+### Documentação
+
+Para obter a documentação, basta rodar o comando ``` doxygen ``` na raiz do projeto.
+
+## WIKI
+
+Para detalhes sobre os algoritmos usados no projeto consulte nossa wiki.
 

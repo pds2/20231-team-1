@@ -66,7 +66,9 @@ TEST_CASE("02 - Test document index with a temporary directory") {
 
 TEST_CASE("03 - Test avarage size of documents in a temporary directory") {
     fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
-    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, {"1.txt", "testing this function"}, {"2.txt", "test three, this is a test"}};
+    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, 
+                                                   {"1.txt", "testing this function"}, 
+                                                   {"2.txt", "test three, this is a test"}};
     utils::create_temp_corpus(tmp_dir, temp_corpus);
 
     DocumentsData data(tmp_dir.c_str());
@@ -74,7 +76,7 @@ TEST_CASE("03 - Test avarage size of documents in a temporary directory") {
     int size1 = data.get_size(0);
     int size2 = data.get_size(1);
     int size3 = data.get_size(2);
-    double mean_size = (size1 + size2 + size3) / 3;
+    double mean_size = ((double)size1 + (double)size2 + (double)size3) / 3;
     CHECK(size == mean_size);
 
     fs::remove_all(tmp_dir);
@@ -82,7 +84,9 @@ TEST_CASE("03 - Test avarage size of documents in a temporary directory") {
 
 TEST_CASE("04 - Test get frequency of terms in documents of a temporary directory") {
     fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
-    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, {"1.txt", "testing this function"}, {"2.txt", "test three, this is a test"}};
+    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, 
+                                                   {"1.txt", "testing this function"}, 
+                                                   {"2.txt", "test three, this is a test"}};
     utils::create_temp_corpus(tmp_dir, temp_corpus);
 
     DocumentsData data(tmp_dir.c_str());
