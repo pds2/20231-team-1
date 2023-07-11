@@ -59,8 +59,7 @@ TEST_CASE("02 - Test document index with a temporary directory") {
                            {"three", {"2.txt"}}};
 
     DocumentsData data(tmp_dir.c_str());
-
-    //CHECK(compareDocumentIndex(names, data));
+    CHECK(compareDocumentIndex(names, data));
 
     fs::remove_all(tmp_dir);
 }
@@ -125,50 +124,11 @@ TEST_CASE("06 - Test size of a empty document in a temporary directory") {
     DocumentsData data(tmp_dir.c_str());
     std::string word = "test";
 
-    int size = data.get_size(0);
-    CHECK(size == 0);
+    CHECK(data.get_size(0) == 0); // empty doc
+    CHECK(data.get_size(3) == 0); // doc does not exist in the index
 }
 
-/*
-TEST_CASE("07 - Test conversion from wordIndex to docIndex in a temporary directory") {
-    fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
-    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, {"1.txt", "testing this function"}, {"2.txt", "test three, this is a test"}};
-    utils::create_temp_corpus(tmp_dir, temp_corpus);
-
-    DocumentsData data(tmp_dir.c_str());
-    
-    std::unordered_map<std::string, std::unordered_map<int, int>> wordIndex = {
-        {"test", {{0, 1}, {2, 1}}},
-        {"one", {{0, 1}}},
-        {"testing", {{0, 1}, {1, 1}}},
-        {"this", {{1, 1}, {2, 1}}},
-        {"function", {{1, 1}}},
-        {"three", {{2, 1}}},
-        {"is", {{2, 1}}},
-        {"a", {{2, 1}}},
-    };
-
-    DocumentIndex docIndex = data.convertToDocumentIndex(wordIndex);
-
-    DocumentIndex expectedIndex = {
-        {"test", {0, 2}},
-        {"one", {0}},
-        {"testing", {0, 1}},
-        {"this", {1, 2}},
-        {"function", {1}},
-        {"three", {2}},
-        {"is", {2}},
-        {"a", {2}},
-    };
-
-    CHECK(docIndex == expectedIndex);
-
-    fs::remove_all(tmp_dir);
-}
-*/
-
-
-TEST_CASE("07 - Test convertToDocumentIndex (wordIndex to docIndex)") {
+TEST_CASE("07 - Test convertToDocumentIndex indirectly through word frequency)") {
     fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
     std::map<std::string, std::string> temp_corpus{
         {"0.txt", "apple apple banana..."}, 
@@ -200,4 +160,6 @@ TEST_CASE("07 - Test convertToDocumentIndex (wordIndex to docIndex)") {
     CHECK(data.get_frequence("orange", doc_name_to_idx["2.txt"]) == 0);
     CHECK(data.get_frequence("orange", doc_name_to_idx["3.txt"]) == 1);
     CHECK(data.get_frequence("orange", doc_name_to_idx["4.txt"]) == 1);
+
+    fs::remove_all(tmp_dir);
 }
