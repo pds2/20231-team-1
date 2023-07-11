@@ -51,7 +51,9 @@ bool compareDocumentIndex(DocumentNames& names, DocumentsData& data) {
 
 TEST_CASE("02 - Test document index with a temporary directory") {
     fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
-    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one"}, {"1.txt", "test two"}, {"2.txt", "test three"}};
+    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one"}, 
+                                                   {"1.txt", "test two"}, 
+                                                   {"2.txt", "test three"}};
     utils::create_temp_corpus(tmp_dir, temp_corpus);
 
     DocumentNames names = {{"test", {"0.txt", "1.txt", "2.txt"}}, 
@@ -60,14 +62,16 @@ TEST_CASE("02 - Test document index with a temporary directory") {
 
     DocumentsData data(tmp_dir.c_str());
 
-    //CHECK(compareDocumentIndex(names, data));
+    CHECK(compareDocumentIndex(names, data));
 
     fs::remove_all(tmp_dir);
 }
 
 TEST_CASE("03 - Test avarage size of documents in a temporary directory") {
     fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
-    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, {"1.txt", "testing this function"}, {"2.txt", "test three, this is a test"}};
+    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, 
+                                                   {"1.txt", "testing this function"}, 
+                                                   {"2.txt", "test three, this is a test"}};
     utils::create_temp_corpus(tmp_dir, temp_corpus);
 
     DocumentsData data(tmp_dir.c_str());
@@ -83,7 +87,9 @@ TEST_CASE("03 - Test avarage size of documents in a temporary directory") {
 
 TEST_CASE("04 - Test get frequency of terms in documents of a temporary directory") {
     fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
-    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, {"1.txt", "testing this function"}, {"2.txt", "test three, this is a test"}};
+    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, 
+                                                   {"1.txt", "testing this function"}, 
+                                                   {"2.txt", "test three, this is a test"}};
     utils::create_temp_corpus(tmp_dir, temp_corpus);
 
     DocumentsData data(tmp_dir.c_str());
@@ -128,45 +134,6 @@ TEST_CASE("06 - Test size of a empty document in a temporary directory") {
     int size = data.get_size(0);
     CHECK(size == 0);
 }
-
-/*
-TEST_CASE("07 - Test conversion from wordIndex to docIndex in a temporary directory") {
-    fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
-    std::map<std::string, std::string> temp_corpus{{"0.txt", "test one, testing"}, {"1.txt", "testing this function"}, {"2.txt", "test three, this is a test"}};
-    utils::create_temp_corpus(tmp_dir, temp_corpus);
-
-    DocumentsData data(tmp_dir.c_str());
-    
-    std::unordered_map<std::string, std::unordered_map<int, int>> wordIndex = {
-        {"test", {{0, 1}, {2, 1}}},
-        {"one", {{0, 1}}},
-        {"testing", {{0, 1}, {1, 1}}},
-        {"this", {{1, 1}, {2, 1}}},
-        {"function", {{1, 1}}},
-        {"three", {{2, 1}}},
-        {"is", {{2, 1}}},
-        {"a", {{2, 1}}},
-    };
-
-    DocumentIndex docIndex = data.convertToDocumentIndex(wordIndex);
-
-    DocumentIndex expectedIndex = {
-        {"test", {0, 2}},
-        {"one", {0}},
-        {"testing", {0, 1}},
-        {"this", {1, 2}},
-        {"function", {1}},
-        {"three", {2}},
-        {"is", {2}},
-        {"a", {2}},
-    };
-
-    CHECK(docIndex == expectedIndex);
-
-    fs::remove_all(tmp_dir);
-}
-*/
-
 
 TEST_CASE("07 - Test convertToDocumentIndex (wordIndex to docIndex)") {
     fs::path tmp_dir = fs::temp_directory_path() / "test_inverted_list";
